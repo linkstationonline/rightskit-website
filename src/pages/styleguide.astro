@@ -1,0 +1,201 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const typeScale = [
+  { cls: "text-h1 font-display", name: "H1", spec: "Clash Grotesk · clamp 44 → 72px · lh 1.02 · 500", sample: "Your rights data toolkit" },
+  { cls: "text-display font-display", name: "Display", spec: "Clash Grotesk · clamp 36 → 48px · lh 1.08 · 500", sample: "Uncover the true value" },
+  { cls: "text-h2 font-display", name: "H2", spec: "Clash Grotesk · clamp 28 → 36px · lh 1.15 · 500", sample: "Data services" },
+  { cls: "text-h3 font-display", name: "H3", spec: "Clash Grotesk · 24px · lh 1.3 · 600", sample: "Managed rights" },
+  { cls: "text-body", name: "Body", spec: "Switzer · 18px · lh 1.6 · 400", sample: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua." },
+  { cls: "text-small", name: "Small", spec: "Switzer · 14px · lh 1.5 · 400", sample: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+  { cls: "text-eyebrow uppercase", name: "Eyebrow", spec: "Switzer · 13px · lh 1.4 · 500 · +0.08em · UPPER", sample: "Unlicensed commercial sync" },
+];
+
+const colors = [
+  { name: "brand", var: "--color-brand", hex: "#7C6BF0", cls: "bg-brand", fg: "text-white" },
+  { name: "brand-hover", var: "--color-brand-hover", hex: "#6A58E6", cls: "bg-brand-hover", fg: "text-white" },
+  { name: "ink", var: "--color-ink", hex: "#1A1E3A", cls: "bg-ink", fg: "text-white" },
+  { name: "ink-muted", var: "--color-ink-muted", hex: "#5B5D6B", cls: "bg-ink-muted", fg: "text-white" },
+  { name: "surface", var: "--color-surface", hex: "#FFFFFF", cls: "bg-surface", fg: "text-ink" },
+  { name: "surface-muted", var: "--color-surface-muted", hex: "#F4F4F5", cls: "bg-surface-muted", fg: "text-ink" },
+  { name: "panel", var: "--color-panel", hex: "#DBDBDB", cls: "bg-panel", fg: "text-ink" },
+  { name: "surface-dark", var: "--color-surface-dark", hex: "#161822", cls: "bg-surface-dark", fg: "text-white" },
+  { name: "surface-raised", var: "--color-surface-raised", hex: "#202231", cls: "bg-surface-raised", fg: "text-white" },
+  { name: "surface-raised-2", var: "--color-surface-raised-2", hex: "#292A33", cls: "bg-surface-raised-2", fg: "text-white" },
+  { name: "on-dark-muted", var: "--color-on-dark-muted", hex: "#C6C7CA", cls: "bg-on-dark-muted", fg: "text-ink" },
+  { name: "accent", var: "--color-accent", hex: "#CBD1FF", cls: "bg-accent", fg: "text-ink" },
+];
+
+const neutrals = [
+  { name: "neutral-100", hex: "#F4F4F5" },
+  { name: "neutral-200", hex: "#E6E6E9" },
+  { name: "neutral-300", hex: "#DBDBDB" },
+  { name: "neutral-500", hex: "#9A9BA3" },
+  { name: "neutral-700", hex: "#5B5D6B" },
+];
+
+const spacing = [
+  { name: "1", px: "4px" }, { name: "2", px: "8px" }, { name: "3", px: "12px" },
+  { name: "4", px: "16px" }, { name: "6", px: "24px" }, { name: "8", px: "32px" },
+  { name: "12", px: "48px" }, { name: "16", px: "64px" }, { name: "20", px: "80px" },
+  { name: "section-sm", px: "64px" }, { name: "section", px: "120px" },
+];
+
+const radii = [
+  { name: "rounded-sm", px: "4px" },
+  { name: "rounded-md", px: "6px" },
+  { name: "rounded-lg", px: "8px" },
+  { name: "rounded-xl", px: "12px" },
+  { name: "rounded-pill", px: "9999px" },
+];
+---
+
+<BaseLayout title="RightsKit — Styleguide">
+  <main class="mx-auto max-w-page px-6 py-16 md:px-8">
+    <header class="mb-16 border-b border-border pb-8">
+      <p class="text-eyebrow uppercase text-brand">Design tokens</p>
+      <h1 class="text-h1 text-ink">RightsKit Styleguide</h1>
+      <p class="text-body mt-4 max-w-2xl text-ink-muted">
+        Every design token, rendered live from <code>src/styles/global.css</code>.
+        Colours sampled from the mock; type &amp; spacing measured and rounded to a
+        4px base. Correct anything that looks off and I'll adjust the tokens.
+      </p>
+    </header>
+
+    <!-- FONTS -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Fonts</h2>
+      <div class="grid gap-8 md:grid-cols-2">
+        <div>
+          <p class="text-small text-ink-muted">
+            <code>--font-display</code> — Clash Grotesk (headings)
+          </p>
+          <p class="font-display text-ink" style="font-size:2.5rem;line-height:1.1">
+            Aa Bb Cc Dd
+          </p>
+          <p class="font-display text-ink" style="font-size:1.25rem;line-height:1.3">
+            ABCDEFGHIJKLM abcdefghijklm 0123456789 &amp; ?!
+          </p>
+        </div>
+        <div>
+          <p class="text-small text-ink-muted">
+            <code>--font-sans</code> — Switzer (body / UI)
+          </p>
+          <p class="font-sans text-ink" style="font-size:2.5rem;line-height:1.1">
+            Aa Bb Cc Dd
+          </p>
+          <p class="font-sans text-ink" style="font-size:1.25rem;line-height:1.3">
+            ABCDEFGHIJKLM abcdefghijklm 0123456789 &amp; ?!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPE SCALE -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Type scale</h2>
+      <div class="flex flex-col gap-8">
+        {typeScale.map((t) => (
+          <div class="grid gap-2 border-b border-border pb-6 md:grid-cols-[10rem_1fr] md:gap-6">
+            <div class="pt-1">
+              <p class="text-small font-medium text-ink">{t.name}</p>
+              <p class="text-small text-ink-muted">{t.spec}</p>
+            </div>
+            <p class={`${t.cls} text-ink`}>{t.sample}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- COLOURS -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Colours</h2>
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        {colors.map((c) => (
+          <div class="overflow-hidden rounded-lg border border-border">
+            <div class={`${c.cls} ${c.fg} flex h-24 items-end p-3 text-small`}>{c.hex}</div>
+            <div class="bg-surface p-3">
+              <p class="text-small font-medium text-ink">{c.name}</p>
+              <p class="text-small text-ink-muted">{c.var}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3 class="text-h3 mt-10 mb-4 text-ink">Neutral ramp</h3>
+      <div class="flex flex-wrap gap-3">
+        {neutrals.map((n) => (
+          <div class="text-center">
+            <div class="h-16 w-24 rounded-md border border-border" style={`background:${n.hex}`}></div>
+            <p class="text-small mt-1 text-ink">{n.name}</p>
+            <p class="text-small text-ink-muted">{n.hex}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- SPACING -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Spacing scale <span class="text-body text-ink-muted">(4px base)</span></h2>
+      <div class="flex flex-col gap-3">
+        {spacing.map((s) => (
+          <div class="flex items-center gap-4">
+            <span class="text-small w-28 shrink-0 text-ink-muted">{s.name} · {s.px}</span>
+            <span class="h-4 rounded-sm bg-brand" style={`width:${s.px}`}></span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- RADII -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Radii</h2>
+      <div class="flex flex-wrap gap-6">
+        {radii.map((r) => (
+          <div class="text-center">
+            <div class={`${r.name} h-20 w-20 border-2 border-brand bg-brand/10`}></div>
+            <p class="text-small mt-2 text-ink">{r.name}</p>
+            <p class="text-small text-ink-muted">{r.px}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- SHADOWS -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Shadows</h2>
+      <div class="flex flex-wrap gap-8">
+        <div class="text-center">
+          <div class="h-24 w-40 rounded-lg bg-surface shadow-card"></div>
+          <p class="text-small mt-3 text-ink">shadow-card</p>
+        </div>
+        <div class="rounded-lg bg-surface-dark p-6 text-center">
+          <div class="h-24 w-40 rounded-lg bg-surface-raised shadow-raised"></div>
+          <p class="text-small mt-3 text-on-dark">shadow-raised</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOTION -->
+    <section class="mb-16">
+      <h2 class="text-h2 mb-6 text-ink">Motion</h2>
+      <ul class="text-body flex flex-col gap-1 text-ink-muted">
+        <li><code>--duration-fast</code> · 150ms — hovers, small state changes</li>
+        <li><code>--duration-base</code> · 300ms — most transitions</li>
+        <li><code>--duration-slow</code> · 600ms — scroll reveals</li>
+        <li><code>--ease-out-soft</code> · cubic-bezier(0.22, 1, 0.36, 1)</li>
+        <li><code>--ease-in-out-soft</code> · cubic-bezier(0.65, 0, 0.35, 1)</li>
+      </ul>
+
+      <p class="text-small mt-6 mb-3 text-ink-muted">
+        Live scroll-reveal demo — these fade + rise in as you scroll (disabled under
+        prefers-reduced-motion):
+      </p>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="reveal rounded-lg bg-surface-dark p-6 text-on-dark" style="--reveal-delay:0ms">Reveal 1</div>
+        <div class="reveal rounded-lg bg-surface-dark p-6 text-on-dark" style="--reveal-delay:120ms">Reveal 2</div>
+        <div class="reveal rounded-lg bg-surface-dark p-6 text-on-dark" style="--reveal-delay:240ms">Reveal 3</div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

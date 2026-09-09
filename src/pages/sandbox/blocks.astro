@@ -1,0 +1,193 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Block from "@/components/site/Block.astro";
+import Container from "@/components/site/Container.astro";
+
+const lorem = {
+  s: "Lorem ipsum dolor sit amet.",
+  m: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+  l: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+};
+const cols4 = [lorem.m, lorem.l, lorem.s, lorem.m];
+---
+
+<BaseLayout title="Sandbox — Blocks">
+  <main class="bg-neutral-200 text-ink">
+    <Container class="py-10">
+      <h1 class="text-h3 font-display text-ink">Block system</h1>
+      <p class="text-body mt-2 text-ink-muted">
+        Inner container max-width <strong>1360px</strong>; page background (grey)
+        shows where a block is constrained.
+      </p>
+    </Container>
+
+    <!-- 1 — FULL-WIDTH BLOCK -->
+    <Block
+      variant="full"
+      class="bg-ink"
+      innerClass="bg-brand py-14 text-center text-white"
+    >
+      <p class="text-small tracking-[0.15em] uppercase">1 · Full-width block</p>
+      <p class="text-body mx-auto mt-2 max-w-xl text-white/85">
+        Purple = constrained 1360px area · dark navy = full-bleed area outside it
+      </p>
+    </Block>
+
+    <!-- 2 — CONSTRAINED BLOCK -->
+    <div class="py-8">
+      <Block
+        variant="constrained"
+        class="rounded-lg bg-surface-dark text-white"
+        innerClass="py-14"
+      >
+        <div class="text-center">
+          <p class="text-small tracking-[0.15em] uppercase">2 · Constrained block</p>
+          <p class="text-body mx-auto mt-2 max-w-xl text-on-dark-muted">
+            Block surface itself is capped at 1360px · page bg shows in the margins
+          </p>
+        </div>
+      </Block>
+    </div>
+
+    <!-- 3 — FULL-WIDTH 50/50 SPLIT -->
+    <section class="relative w-full">
+      <div class="absolute inset-0 grid grid-cols-2">
+        <div class="bg-surface-dark"></div>
+        <div class="bg-panel"></div>
+      </div>
+      <Container class="relative grid grid-cols-2">
+        <div class="bg-brand px-8 py-14 text-white">
+          <p class="text-small tracking-[0.15em] uppercase">3 · Full-width split</p>
+          <p class="text-body mt-3 text-white/85">{lorem.l}</p>
+        </div>
+        <div class="bg-accent px-8 py-14 text-ink">
+          <p class="text-small tracking-[0.15em] uppercase">50 / 50</p>
+          <p class="text-body mt-3 text-ink/70">{lorem.m}</p>
+        </div>
+      </Container>
+    </section>
+
+    <!-- 3c — OPTIMAL split (flex + max() gutter). bg bleeds to the edges; content
+         aligns to the 1360 grid and never touches the edge; equal-height halves;
+         stacks below 1024 keeping the L/R bands. -->
+    <div class="pt-8"></div>
+    <section class="usplit">
+      <div class="usplit-half half-navy">
+        <div class="usplit-inner bg-brand text-white">
+          <p class="text-small tracking-[0.15em] uppercase">3c · Optimal split</p>
+          <p class="text-body mt-3 text-white/85">{lorem.l}</p>
+        </div>
+      </div>
+      <div class="usplit-half half-grey">
+        <div class="usplit-inner bg-accent text-ink">
+          <p class="text-small tracking-[0.15em] uppercase">50 / 50</p>
+          <p class="text-body mt-3 text-ink/70">{lorem.s}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 — CONSTRAINED 50/50 SPLIT -->
+    <div class="py-8">
+      <Block variant="constrained" class="overflow-hidden rounded-lg">
+        <div class="grid grid-cols-2">
+          <div class="bg-brand px-8 py-14 text-white">
+            <p class="text-small tracking-[0.15em] uppercase">4 · Constrained split</p>
+            <p class="text-body mt-3 text-white/80">{lorem.m}</p>
+          </div>
+          <div class="bg-accent px-8 py-14 text-ink">
+            <p class="text-small tracking-[0.15em] uppercase">within 1360</p>
+            <p class="text-body mt-3 text-ink/70">{lorem.l}</p>
+          </div>
+        </div>
+      </Block>
+    </div>
+
+    <!-- 5 — FULL-WIDTH 4-COL: bg bleeds L & R, 4 columns constrained to 1360 -->
+    <section class="bg-surface-dark py-14">
+      <div class="container-site mb-6">
+        <p class="text-small tracking-[0.15em] text-on-dark-muted uppercase">
+          5 · Full-width 4-col · navy bleeds L & R · columns in 1360
+        </p>
+      </div>
+      <Container class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          cols4.map((t, i) => (
+            <div class="bg-brand px-6 py-12 text-white">
+              <p class="text-small tracking-[0.15em] uppercase">Col {i + 1}</p>
+              <p class="text-body mt-3 text-white/85">{t}</p>
+            </div>
+          ))
+        }
+      </Container>
+    </section>
+
+    <!-- 6 — CONSTRAINED 4-COL: box capped at 1360, no full-width areas -->
+    <div class="py-8">
+      <Block variant="constrained" class="rounded-lg bg-panel py-14">
+        <p class="text-small mb-6 tracking-[0.15em] text-ink/70 uppercase">
+          6 · Constrained 4-col · box capped at 1360 · no full-width areas
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {
+            cols4.map((t, i) => (
+              <div class="bg-accent px-6 py-12 text-ink">
+                <p class="text-small tracking-[0.15em] uppercase">Col {i + 1}</p>
+                <p class="text-body mt-3 text-ink/70">{t}</p>
+              </div>
+            ))
+          }
+        </div>
+      </Block>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  /* 3c — flex split. Mobile: stacked full-bleed bands, content constrained.
+     Desktop: two halves, bg bleeds to the edge, content aligned to the 1360 grid
+     via max(pad, (100vw-1360)/2) so it never touches the edge. */
+  .usplit {
+    display: flex;
+    flex-direction: column;
+  }
+  .usplit-half {
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--container-pad);
+  }
+  .half-navy {
+    background: var(--color-surface-dark);
+  }
+  .half-grey {
+    background: var(--color-panel);
+  }
+  .usplit-inner {
+    width: 100%;
+    max-width: 1360px;
+    margin-inline: auto;
+    padding-block: 3.5rem;
+    padding-inline: 2rem;
+  }
+  @media (min-width: 1024px) {
+    .usplit {
+      flex-direction: row;
+    }
+    .usplit-half {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: 0;
+    }
+    .half-navy {
+      justify-content: flex-end;
+      padding-inline: max(var(--container-pad), calc((100vw - 1360px) / 2)) 0;
+    }
+    .half-grey {
+      justify-content: flex-start;
+      padding-inline: 0 max(var(--container-pad), calc((100vw - 1360px) / 2));
+    }
+    .usplit-inner {
+      max-width: 680px;
+      margin-inline: 0;
+    }
+  }
+</style>

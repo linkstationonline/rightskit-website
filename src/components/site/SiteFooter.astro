@@ -1,0 +1,46 @@
+---
+import Logo from "./Logo.astro";
+import CtaButton from "./CtaButton.astro";
+import lightLogo from "@/assets/brand/rightskit-logo-light.svg?raw";
+
+const blurb =
+  "Our data tools and network of trusted partners help rightsholders uncover the true value of their catalog. Take control of your data and start unlocking untapped revenue today.";
+---
+
+<footer class="relative overflow-hidden bg-surface-dark text-on-dark">
+  <div class="container-site pt-12 lg:pt-20">
+    <div class="relative grid grid-cols-1 lg:grid-cols-2">
+      <!-- vertical lines: far-left, middle, far-right -->
+      <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-px bg-white/12 lg:block"></div>
+      <div class="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px bg-white/12 lg:block"></div>
+      <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-px bg-white/12 lg:block"></div>
+
+      <!-- content in the first column (UGC padding) -->
+      <div class="reveal reveal-fade flex flex-col items-start justify-start self-start px-8 py-16 md:px-12 lg:py-24">
+        <Logo variant="light" class="h-8" />
+        <p class="text-h3 mt-6 font-display font-normal tracking-[0.025em] text-on-dark">
+          contact@rightskit.com
+        </p>
+        <p class="text-body mt-6 max-w-[400px] text-[16px] text-on-dark-muted opacity-90">
+          Our data tools and network of trusted partners help rightsholders
+          uncover the true value of their catalog. Take control of your data and
+          unlock untapped revenue today.
+        </p>
+        <CtaButton class="mt-8 w-fit">Get in touch</CtaButton>
+      </div>
+    </div>
+
+    <p class="text-small mt-12 pb-12 text-left font-extralight text-on-dark-muted lg:mt-20">
+      © 2025 RightsKit. All rights reserved
+    </p>
+  </div>
+
+  <!-- Giant wordmark, constrained to 1360; bottom ~1/4 clipped by the box so it
+       runs off the bottom of the page. Logo aspect 177:37 → show 3/4 height. -->
+  <div class="container-site" aria-hidden="true">
+    <div class="overflow-hidden" style="aspect-ratio: 177 / 24;">
+      <div class="[&>svg]:block [&>svg]:h-auto [&>svg]:w-full" set:html={lightLogo}>
+      </div>
+    </div>
+  </div>
+</footer>

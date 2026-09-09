@@ -1,0 +1,44 @@
+---
+import Container from "./Container.astro";
+
+interface Props {
+  /**
+   * "full"        → block surface (bg) spans edge-to-edge; content sits in the
+   *                 centered 1360px container.
+   * "constrained" → the block surface itself is capped at 1360px (page bg shows
+   *                 in the margins).
+   */
+  variant?: "full" | "constrained";
+  /** Surface styling (bg colour etc.). Applied to the full-bleed section for
+   *  "full", or to the constrained container for "constrained". */
+  class?: string;
+  /** Extra classes on the inner container (e.g. vertical padding, grid). */
+  innerClass?: string;
+  id?: string;
+}
+
+const {
+  variant = "constrained",
+  class: className,
+  innerClass,
+  id,
+} = Astro.props;
+
+const inner = [className, innerClass].filter(Boolean).join(" ");
+---
+
+{
+  variant === "full" ? (
+    <section id={id} class:list={["w-full", className]}>
+      <Container class={innerClass}>
+        <slot />
+      </Container>
+    </section>
+  ) : (
+    <section id={id} class="w-full">
+      <Container class={inner}>
+        <slot />
+      </Container>
+    </section>
+  )
+}

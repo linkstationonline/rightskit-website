@@ -1,17 +1,27 @@
 ---
-
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AnnouncementBar from "@/components/site/AnnouncementBar.astro";
+import SiteHeader from "@/components/site/SiteHeader.astro";
+import Hero from "@/components/site/Hero.astro";
+import ServicesSection from "@/components/site/ServicesSection.astro";
+import UgcBanner from "@/components/site/UgcBanner.astro";
+import ValueCta from "@/components/site/ValueCta.astro";
+import SiteFooter from "@/components/site/SiteFooter.astro";
+import Block from "@/components/site/Block.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <AnnouncementBar />
+  <SiteHeader />
+  <main>
+    <Hero />
+    <ServicesSection />
+    <UgcBanner />
+    <ValueCta />
+  </main>
+
+  <!-- full-width purple strip -->
+  <div class="h-8 w-full bg-brand"></div>
+
+  <SiteFooter />
+</BaseLayout>

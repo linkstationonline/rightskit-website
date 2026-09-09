@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import CtaButton from "./CtaButton.astro";
+import bannerBg from "@/assets/media/rightskit-ugc-banner-bg.png";
+import bannerPhoto from "@/assets/media/rightskit-ugc-banner-photo.png";
+
+const body =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.";
+---
+
+<!-- Constrained banner. Photo is a free background layer on the right (not a
+     rigid column), so it can scale/bleed; text sits on the left. -->
+<section class="py-20 lg:py-28">
+  <div class="container-site">
+    <div
+      class="relative isolate flex min-h-[26rem] items-center overflow-hidden text-on-dark lg:min-h-[34rem]"
+    >
+      <!-- gradient / texture background -->
+      <Image
+        src={bannerBg}
+        alt=""
+        aria-hidden="true"
+        class="absolute inset-0 -z-20 h-full w-full object-cover"
+        widths={[768, 1280, 1600]}
+        sizes="(max-width: 1360px) 100vw, 1360px"
+      />
+
+      <!-- photo, background-right — scroll parallax -->
+      <div class="absolute inset-y-0 right-0 -z-10 w-[62%] overflow-hidden lg:w-[42%]">
+        <Image
+          id="ugcParallax"
+          src={bannerPhoto}
+          alt="Collage of user-generated content clips"
+          class="absolute inset-x-0 -top-[54%] h-[192%] w-full origin-left object-cover object-top will-change-transform"
+          widths={[500, 800, 1100]}
+          sizes="(max-width: 1024px) 62vw, 48vw"
+        />
+      </div>
+
+      <!-- text -->
+      <div class="relative max-w-[80%] px-8 py-16 md:px-12 lg:max-w-[58%] lg:py-24">
+        <p class="font-plex text-eyebrow font-light tracking-[0.2em] text-on-dark-muted uppercase">
+          Unlicensed commercial sync
+        </p>
+        <h2 class="text-h2 mt-4 max-w-2xl font-light tracking-[0.01em] leading-[1.25] lg:text-[38px]">
+          Now accepting clients for unlicensed commercial UGC sync services
+        </h2>
+        <p class="text-body mt-6 max-w-2xl text-on-dark-muted">{body}</p>
+        <CtaButton class="mt-8">Get in touch</CtaButton>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const img = document.getElementById("ugcParallax");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (img && !reduce) {
+    let ticking = false;
+    const update = () => {
+      const r = img.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
+      const shift = Math.max(-1, Math.min(1, p)) * -190;
+      img.style.transform = `translateY(${shift}px) scale(1.1)`;
+      ticking = false;
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
+  }
+</script>

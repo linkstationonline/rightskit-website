@@ -1,0 +1,20 @@
+---
+import outline from "@/assets/brand/rightskit-icon-outline.svg?raw";
+import dark from "@/assets/brand/rightskit-icon-dark.svg?raw";
+
+interface Props {
+  variant?: "outline" | "dark";
+  class?: string;
+}
+
+const { variant = "outline", class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    "inline-block [&>svg]:block [&>svg]:h-full [&>svg]:w-auto",
+    className,
+  ]}
+  aria-hidden="true"
+  set:html={variant === "dark" ? dark : outline}
+/>

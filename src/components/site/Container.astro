@@ -1,0 +1,12 @@
+---
+// Centered, constrained container (max 1360px) with a side margin so it never
+// touches the viewport edges. Uses the shared .container-site class.
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={["container-site", className]}>
+  <slot />
+</div>

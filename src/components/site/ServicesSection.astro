@@ -1,0 +1,56 @@
+---
+import CtaButton from "./CtaButton.astro";
+import HexMark from "./HexMark.astro";
+import ServiceRow from "./ServiceRow.astro";
+
+const lead =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam";
+const rowBody =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.";
+const rows = [
+  { title: "Data services", tags: ["Royalty audit", "Metadata", "Data matching"] },
+  { title: "Managed rights", tags: ["Metadata", "Data matching"] },
+  { title: "Sync licensing", tags: ["Metadata", "Data matching"] },
+];
+---
+
+<!-- Constrained split: navy/grey live INSIDE the 1360 container; the area outside
+     the container stays white (page background). -->
+<section
+  id="services"
+  class="mt-16 border-y border-neutral-200 lg:mt-24"
+  style="background-color:#fffffb;background-image:radial-gradient(rgba(26,30,58,0.13) 1.3px, transparent 1.3px);background-size:15px 15px;"
+>
+  <div class="container-site grid grid-cols-1 border-x border-neutral-200 lg:grid-cols-2">
+    <!-- Left: dark intro, sticky on desktop -->
+    <div class="bg-surface-dark text-on-dark">
+      <div
+        class="px-8 pt-12 pb-16 md:px-12 lg:pt-16 lg:pr-12 lg:pb-24"
+      >
+        <HexMark variant="outline" class="h-28" />
+        <div class="mt-4 lg:mt-5">
+          <h2 class="text-h2 max-w-sm font-light tracking-[0.02em] leading-[1.25] lg:text-[38px]">
+            Actionable services,<br />no-risk pricing
+          </h2>
+          <p class="text-body mt-6 max-w-md text-on-dark-muted opacity-90">{lead}</p>
+          <CtaButton class="mt-8">Get in touch</CtaButton>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: grey rows (row dividers span the full column width) -->
+    <div class="bg-[#f8f8f9] text-ink">
+      {
+        rows.map((r, i) => (
+          <ServiceRow
+            title={r.title}
+            body={rowBody}
+            tags={r.tags}
+            index={i}
+            class={i > 0 ? "border-t border-ink/10" : ""}
+          />
+        ))
+      }
+    </div>
+  </div>
+</section>

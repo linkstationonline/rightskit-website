@@ -1,0 +1,30 @@
+---
+import { Button } from "@/components/starwind/button";
+
+interface Props {
+  href?: string;
+  class?: string;
+  variant?: "primary" | "outline" | "default" | "ghost" | "secondary";
+  size?: "sm" | "md" | "lg";
+}
+
+const {
+  href = "#contact",
+  class: className,
+  variant = "primary",
+  size = "sm",
+} = Astro.props;
+---
+
+<Button
+  as="a"
+  href={href}
+  variant={variant}
+  size={size}
+  class:list={[
+    "cta-glow font-plex text-xs font-light tracking-widest uppercase",
+    className,
+  ]}
+>
+  <slot />
+</Button>

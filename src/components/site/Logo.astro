@@ -1,0 +1,25 @@
+---
+import lightSvg from "@/assets/brand/rightskit-logo-light.svg?raw";
+import darkSvg from "@/assets/brand/rightskit-logo-dark.svg?raw";
+
+interface Props {
+  variant?: "light" | "dark";
+  class?: string;
+  href?: string | null;
+}
+
+const { variant = "dark", class: className, href = "/" } = Astro.props;
+const svg = variant === "light" ? lightSvg : darkSvg;
+const cls = [
+  "inline-flex items-center [&>svg]:block [&>svg]:h-full [&>svg]:w-auto",
+  className,
+];
+---
+
+{
+  href ? (
+    <a href={href} class:list={cls} aria-label="RightsKit home" set:html={svg} />
+  ) : (
+    <span class:list={cls} aria-hidden="true" set:html={svg} />
+  )
+}

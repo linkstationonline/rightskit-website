@@ -1,0 +1,65 @@
+---
+// Full-width 50/50 split. Each half's background bleeds to the viewport edge;
+// content aligns to the 1360 container and never touches the edge (any width);
+// equal-height halves; stacks below 1024. Slots: "left" and "right".
+interface Props {
+  leftClass?: string; // bg + text colour for the left half, e.g. "bg-surface-dark text-on-dark"
+  rightClass?: string; // e.g. "bg-panel text-ink"
+  id?: string;
+}
+const { leftClass = "", rightClass = "", id } = Astro.props;
+---
+
+<section class="usplit" id={id}>
+  <div class:list={["usplit-half usplit-left", leftClass]}>
+    <div class="usplit-inner"><slot name="left" /></div>
+  </div>
+  <div class:list={["usplit-half usplit-right", rightClass]}>
+    <div class="usplit-inner"><slot name="right" /></div>
+  </div>
+</section>
+
+<style>
+  .usplit {
+    display: flex;
+    flex-direction: column;
+  }
+  .usplit-half {
+    display: flex;
+    justify-content: center;
+    padding-inline: var(--container-pad);
+  }
+  .usplit-inner {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+  }
+  @media (min-width: 1024px) {
+    .usplit {
+      flex-direction: row;
+      align-items: stretch;
+    }
+    .usplit-half {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: 0;
+    }
+    .usplit-left {
+      justify-content: flex-end;
+      padding-inline: max(
+          var(--container-pad),
+          calc((100vw - var(--container-max)) / 2)
+        )
+        0;
+    }
+    .usplit-right {
+      justify-content: flex-start;
+      padding-inline: 0
+        max(var(--container-pad), calc((100vw - var(--container-max)) / 2));
+    }
+    .usplit-inner {
+      max-width: calc(var(--container-max) / 2);
+      margin-inline: 0;
+    }
+  }
+</style>

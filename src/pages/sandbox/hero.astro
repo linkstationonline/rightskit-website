@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Hero from "@/components/site/Hero.astro";
+---
+
+<BaseLayout title="Sandbox — Hero">
+  <main>
+    <Hero />
+    <!-- spacer so scroll-reveal + float are observable -->
+    <div class="flex h-screen items-center justify-center bg-surface-dark">
+      <p class="text-small text-on-dark-muted">↑ hero above · (sandbox scroll space)</p>
+    </div>
+  </main>
+</BaseLayout>

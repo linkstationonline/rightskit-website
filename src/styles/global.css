@@ -1,0 +1,279 @@
+/* =============================================================================
+   RightsKit — brand layer.
+   Owns design tokens. Imports Starwind's CLI-owned layer (which imports Tailwind).
+   Where a brand token maps to an existing Starwind variable, we OVERRIDE it in the
+   :root / .dark blocks below rather than duplicating. One source of truth per token.
+   Do NOT move brand tokens into starwind.css — `starwind add` overwrites that file.
+   ============================================================================= */
+
+@import "./starwind.css";
+
+/* -----------------------------------------------------------------------------
+   Brand fonts (self-hosted, from /public/fonts/)
+   Clash Grotesk = display / headings.  Switzer = body / UI.
+   Single variable woff2 per family (woff fallback) keeps requests minimal.
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Clash Grotesk";
+  src:
+    url("/fonts/ClashGrotesk-Variable.woff2") format("woff2"),
+    url("/fonts/ClashGrotesk-Variable.woff") format("woff");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src:
+    url("/fonts/Switzer-Variable.woff2") format("woff2"),
+    url("/fonts/Switzer-Variable.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("/fonts/IBMPlexSans-Variable.woff2") format("woff2");
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* --- Type: family ------------------------------------------------------- */
+  --font-sans: "Switzer", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Clash Grotesk", "Switzer", ui-sans-serif, system-ui,
+    sans-serif;
+  --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Type: scale (size / line-height / weight), fluid & mobile-first ---- */
+  --text-h1: clamp(2.75rem, 1rem + 6.7vw, 6.375rem);        /* 44 → 102 */
+  --text-h1--line-height: 0.95;
+  --text-h1--font-weight: 350;
+
+  --text-display: clamp(2.5rem, 1.5rem + 3vw, 4rem);        /* 40 → 64 */
+  --text-display--line-height: 1.08;
+  --text-display--font-weight: 400;
+
+  --text-h2: clamp(1.75rem, 1.2rem + 2.2vw, 2.25rem);       /* 28 → 36 */
+  --text-h2--line-height: 1.15;
+  --text-h2--font-weight: 400;
+
+  --text-h3: 1.5rem;                                        /* 24 */
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+
+  --text-body: 1.0625rem;                                   /* 17 (Figma) */
+  --text-body--line-height: 1.529;                          /* 26 / 17 */
+  --text-body--font-weight: 200;                            /* Switzer Extralight */
+
+  --text-small: 0.875rem;                                   /* 14 */
+  --text-small--line-height: 1.5;
+  --text-small--font-weight: 400;
+
+  --text-eyebrow: 0.75rem;                                  /* 12 */
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--font-weight: 500;
+  --text-eyebrow--letter-spacing: 0.08em;
+
+  /* --- Colour: brand palette (semantic) ---------------------------------- */
+  --color-brand: #5d44ff;              /* primary purple (pop) */
+  --color-brand-foreground: #fffffb;
+  --color-brand-hover: #4a32e6;
+
+  --color-ink: #1a1e3a;                /* headings / body on light (navy)  */
+  --color-ink-muted: #5b5d6b;          /* secondary text on light          */
+
+  --color-surface: #fffffb;            /* page background (light, Figma)   */
+  --color-surface-muted: #f4f4f5;      /* subtle section tint              */
+  --color-panel: #dbdbdb;              /* light grey services panel        */
+
+  --color-surface-dark: #202231;       /* navy blue sections/footer        */
+  --color-surface-raised: #202231;     /* announcement bar / raised dark   */
+  --color-surface-raised-2: #292a33;   /* nested dark card                 */
+  --color-on-dark: #fffffb;
+  --color-on-dark-muted: #c6c7ca;
+
+  --color-accent: #cbd1ff;             /* lavender accent (tags / badges)  */
+
+  /* neutral ramp */
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e6e6e9;
+  --color-neutral-300: #dbdbdb;
+  --color-neutral-500: #9a9ba3;
+  --color-neutral-700: #5b5d6b;
+
+  /* --- Layout: container + section rhythm -------------------------------- */
+  --container-page: 75rem;             /* 1200px content max-width          */
+  --spacing-gutter: 1.5rem;            /* page side padding (mobile)        */
+  --spacing-section: 7.5rem;           /* 120px vertical section rhythm     */
+  --spacing-section-sm: 4rem;          /* 64px compact section rhythm       */
+
+  /* --- Radii -------------------------------------------------------------- */
+  /* Starwind derives --radius-xs..3xl from --radius (overridden in :root).  */
+  --radius-pill: 9999px;
+
+  /* --- Shadows ------------------------------------------------------------ */
+  --shadow-card: 0 1px 2px rgb(26 30 58 / 0.06), 0 12px 32px rgb(26 30 58 / 0.08);
+  --shadow-raised: 0 24px 64px rgb(0 0 0 / 0.35);
+
+  /* --- Motion ------------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+}
+
+/* -----------------------------------------------------------------------------
+   Override Starwind's existing variables with brand values (do not duplicate).
+   These run after the @import above, so they win the cascade.
+   -------------------------------------------------------------------------- */
+:root {
+  --primary: var(--color-brand);
+  --primary-foreground: var(--color-brand-foreground);
+  --primary-accent: var(--color-brand);
+
+  --background: var(--color-surface);
+  --foreground: var(--color-ink);
+  --card: var(--color-surface);
+  --card-foreground: var(--color-ink);
+  --muted: var(--color-surface-muted);
+  --muted-foreground: var(--color-ink-muted);
+  --border: var(--color-neutral-200);
+  --input: var(--color-neutral-200);
+
+  --radius: 0.5rem; /* base → sm 4px, md 6px, lg 8px (buttons/cards per mock) */
+
+  /* Legacy full-width gutter (still used by .container-site until sections
+     migrate to the Block system below). */
+  --gutter: clamp(1.5rem, 6vw, 10rem);
+
+  /* Block system: inner constrained container width + its side padding. */
+  --container-max: 85rem; /* 1360px */
+  --container-pad: 2rem; /* 32px mobile */
+}
+
+@media (min-width: 640px) {
+  :root {
+    --container-pad: 2.5rem; /* 40px */
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --container-pad: 3rem; /* 48px */
+  }
+}
+
+/* Constrained content container: centered, capped at 1360px, with responsive
+   side padding so content never touches the viewport edge. Plain CSS class (not
+   a Tailwind @utility) so it is emitted identically in dev and build.
+   Section backgrounds bleed full-width because they live on the <section>;
+   this only constrains the CONTENT. */
+.container-site {
+  width: calc(100% - 4rem); /* ≥32px each side */
+  max-width: 1360px;
+  margin-inline: auto;
+}
+@media (min-width: 640px) {
+  .container-site {
+    width: calc(100% - 5rem); /* ≥40px each side */
+  }
+}
+@media (min-width: 1024px) {
+  .container-site {
+    width: calc(100% - 6rem); /* ≥48px each side */
+  }
+}
+
+/* Primary button hover: lighter purple + glow. Plain (unlayered) CSS so it beats
+   Starwind's layered hover:bg-primary/90 without !important or merge issues. */
+.cta-glow {
+  transition:
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.cta-glow:hover {
+  background-color: #7663ff;
+  box-shadow: 0 4px 18px -6px rgb(93 68 255 / 0.45);
+}
+
+/* -----------------------------------------------------------------------------
+   Base: motion + smooth scroll + scroll-reveal utility.
+   The IntersectionObserver that adds `.is-visible` lives in BaseLayout.astro.
+   -------------------------------------------------------------------------- */
+@layer base {
+  /* Kill horizontal overflow from full-bleed (100vw) elements — prevents a phantom
+     horizontal scrollbar and the jittery scrolling it causes. `clip` (not hidden)
+     so it doesn't break position: sticky. */
+  body {
+    overflow-x: clip;
+  }
+
+  /* Headings default to the display face; body inherits --font-sans via Tailwind. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--duration-slow) var(--ease-out-soft),
+      transform var(--duration-slow) var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  /* subtler variant: shorter travel + duration, longer delay */
+  .reveal.reveal-icon {
+    transform: translateY(1.4rem);
+    transition:
+      opacity 750ms var(--ease-out-soft) 450ms,
+      transform 750ms var(--ease-out-soft) 450ms;
+  }
+  /* pure fade — no movement */
+  .reveal.reveal-fade {
+    transform: none;
+    transition: opacity 700ms var(--ease-out-soft);
+  }
+
+  /* Continuous gentle float for hero shapes. Applied to a WRAPPER inside a
+     .reveal element so the one-shot reveal transform and the looping float
+     transform never fight over the same element. Vary --float-dur / --float-shift
+     / animation-delay per shape for an organic, non-synchronised drift. */
+  .hero-float {
+    animation: hero-float var(--float-dur, 7s) var(--ease-in-out-soft) infinite;
+    animation-delay: var(--float-delay, 0ms);
+  }
+  @keyframes hero-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, var(--float-shift, -16px), 0)
+        rotate(var(--float-rot, 0deg));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .hero-float {
+      animation: none;
+    }
+  }
+}

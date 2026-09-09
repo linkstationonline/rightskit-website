@@ -1,0 +1,25 @@
+---
+import Tag from "./Tag.astro";
+
+interface Props {
+  title: string;
+  body: string;
+  tags: string[];
+  class?: string;
+  /** stagger index for the sequential scroll reveal */
+  index?: number;
+}
+const { title, body, tags, class: className, index = 0 } = Astro.props;
+---
+
+<div class:list={["reveal", className]} style={`--reveal-delay:${index * 130}ms`}>
+  <div
+    class="px-6 pt-12 pb-12 transition-colors duration-200 hover:bg-ink/[0.035] sm:px-8 lg:pt-14 lg:pr-10 lg:pb-14 lg:pl-12"
+  >
+    <h3 class="text-h2 text-ink lg:text-[34px]">{title}</h3>
+    <p class="text-body mt-5 max-w-2xl text-ink-muted">{body}</p>
+    <div class="mt-8 flex flex-wrap justify-end gap-2">
+      {tags.map((t) => <Tag>{t}</Tag>)}
+    </div>
+  </div>
+</div>

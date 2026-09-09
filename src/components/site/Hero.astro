@@ -1,0 +1,121 @@
+---
+import CtaButton from "./CtaButton.astro";
+import HeroHexPhoto from "./HeroHexPhoto.astro";
+import womanImg from "@/assets/hero/ugc-panel-1.png";
+import tennisImg from "@/assets/hero/ugc-panel-2.png";
+import bagImg from "@/assets/hero/ugc-panel-3.png";
+import shoeImg from "@/assets/hero/ugc-panel-4.png";
+
+const body =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea";
+---
+
+<section
+  id="hero"
+  class="relative overflow-hidden border-b border-neutral-300 bg-surface lg:min-h-[44rem]"
+>
+  <!-- Copy (container is click-through so the hexes behind it stay hoverable) -->
+  <div class="container-site pointer-events-none relative z-40 py-10 lg:py-14">
+    <div class="pointer-events-auto max-w-xl lg:pt-14">
+      <h1 class="text-h1 text-ink">Your rights<br />data toolkit</h1>
+      <p class="text-body mt-6 max-w-[700px] text-ink-muted">{body}</p>
+      <CtaButton class="mt-8">Get in touch</CtaButton>
+    </div>
+
+    <!-- Mobile / tablet cluster (below the copy) — equal-size hexagons -->
+    <div class="relative mt-10 aspect-[5/4] w-full lg:hidden">
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-10" style="left:6%;top:44%;width:50.6%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-20" style="left:27%;top:22%;width:50.6%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman in sunglasses on rocks by the sea" class="z-30" style="left:48%;top:0%;width:50.6%" />
+    </div>
+  </div>
+
+  <!-- Desktop cluster: hexagons on a rising diagonal, drifting up-right along the
+       line. Images repeat every 3 so a translate of one 3-step period loops
+       seamlessly. Pauses on hover. -->
+  <div
+    class="absolute inset-0 z-10 hidden lg:block"
+    style="-webkit-mask-image:linear-gradient(to top right, transparent 0%, black 17%);mask-image:linear-gradient(to top right, transparent 0%, black 17%);"
+  >
+    <div class="hex-conveyor absolute inset-0">
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[1]" style="left:-33%;top:146%;width:28.6%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[2]" style="left:-11.5%;top:117%;width:28.6%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[3]" style="left:10%;top:88%;width:28.6%" />
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[4]" style="left:31.5%;top:59%;width:28.6%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[5]" style="left:53%;top:30%;width:28.6%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[6]" style="left:74.5%;top:1%;width:28.6%" />
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[7]" style="left:96%;top:-28%;width:28.6%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[8]" style="left:117.5%;top:-57%;width:28.6%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[9]" style="left:139%;top:-86%;width:28.6%" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hex-conveyor {
+    animation: hex-drift 60s linear infinite;
+  }
+  /* one 3-step period: +64.5% x, -87% y (each step is +21.5% / -29%) */
+  @keyframes hex-drift {
+    from {
+      transform: translate(0, 0);
+    }
+    to {
+      transform: translate(64.5%, -87%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hex-conveyor {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  // Cursor-reactive 3D tilt. A rAF loop reads each hexagon's LIVE position so the
+  // tilt stays correct while they drift; only the topmost hovered hex tilts.
+  const hero = document.getElementById("hero");
+  if (hero) {
+    const hexes = Array.from(
+      hero.querySelectorAll<HTMLElement>(".hero-hex"),
+    ).map((el) => ({ el, inner: el.querySelector<HTMLElement>(".hero-hex-inner") }));
+    let mx: number | null = null;
+    let my: number | null = null;
+    let raf = 0;
+
+    const tick = () => {
+      const rects = hexes.map((h) => h.el.getBoundingClientRect());
+      let top = -1;
+      if (mx !== null && my !== null) {
+        rects.forEach((r, i) => {
+          if (mx! >= r.left && mx! <= r.right && my! >= r.top && my! <= r.bottom)
+            top = i;
+        });
+      }
+      hexes.forEach((h, i) => {
+        if (!h.inner) return;
+        if (i === top) {
+          const r = rects[i];
+          const px = (mx! - r.left) / r.width - 0.5;
+          const py = (my! - r.top) / r.height - 0.5;
+          h.inner.style.transform = `rotateX(${(-py * 18).toFixed(1)}deg) rotateY(${(px * 18).toFixed(1)}deg)`;
+        } else {
+          h.inner.style.transform = "";
+        }
+      });
+      raf = mx === null ? 0 : requestAnimationFrame(tick);
+    };
+
+    hero.addEventListener("pointermove", (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    hero.addEventListener("pointerleave", () => {
+      mx = my = null;
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      hexes.forEach((h) => h.inner && (h.inner.style.transform = ""));
+    });
+  }
+</script>

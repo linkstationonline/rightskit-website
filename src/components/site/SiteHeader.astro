@@ -1,0 +1,83 @@
+---
+import Logo from "./Logo.astro";
+import CtaButton from "./CtaButton.astro";
+
+const links = [
+  { label: "Free composition search", href: "#" },
+  { label: "Services", href: "#services" },
+  { label: "About RightsKit", href: "#about" },
+];
+---
+
+<header class="relative z-50 border-b border-neutral-300 bg-surface">
+  <div
+    class="container-site flex items-center justify-between gap-6 py-5"
+  >
+    <Logo variant="dark" class="h-8" />
+
+    <nav class="hidden items-center gap-8 lg:flex">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="font-plex text-xs font-normal tracking-widest text-ink uppercase transition-colors hover:text-brand"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <CtaButton>Get in touch</CtaButton>
+    </nav>
+
+    <button
+      id="navToggle"
+      type="button"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+      aria-controls="mobileNav"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink lg:hidden"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <div
+    id="mobileNav"
+    class="container-site hidden border-t border-border pb-6 lg:hidden"
+  >
+    <nav class="flex flex-col gap-4 pt-4">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class="text-sm font-medium tracking-[0.08em] text-ink uppercase"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <CtaButton class="mt-2 w-fit">Get in touch</CtaButton>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("navToggle");
+  const menu = document.getElementById("mobileNav");
+  btn?.addEventListener("click", () => {
+    const nowOpen = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(nowOpen));
+  });
+</script>

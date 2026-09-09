@@ -1,0 +1,30 @@
+---
+import CtaButton from "./CtaButton.astro";
+import HexMark from "./HexMark.astro";
+---
+
+<!-- White band with a repeating light-grey pattern; the WHITE 1360 container on
+     top hides the pattern in the centre, so it shows only left & right.
+     "+" pattern (kept for reference):
+     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='21' height='21'%3E%3Cpath d='M10.5 6v9 M6 10.5h9' stroke='%231a1e3a' stroke-opacity='0.13' stroke-width='0.7' stroke-linecap='round'/%3E%3C/svg%3E");background-size:21px 21px; -->
+<section
+  class="mb-16 border-y border-neutral-200 lg:mb-24"
+  style="background-color:#fffffb;background-image:radial-gradient(rgba(26,30,58,0.13) 1.3px, transparent 1.3px);background-size:15px 15px;"
+>
+  <div
+    class="container-site border-x border-neutral-200 bg-surface py-20 text-center lg:py-24"
+  >
+    <div class="mx-auto max-w-4xl">
+      <HexMark variant="dark" class="reveal reveal-icon mx-auto h-12" />
+      <h2 class="text-display mt-5 text-ink">
+        Uncover the true value<br />of your copyrights
+      </h2>
+      <p class="text-body mx-auto mt-6 max-w-2xl text-ink-muted">
+        Our data tools and network of trusted partners help rightsholders uncover
+        the true value of their catalog. Take control of your data and start
+        unlocking untapped revenue today.
+      </p>
+      <CtaButton class="mt-8">Get in touch</CtaButton>
+    </div>
+  </div>
+</section>
