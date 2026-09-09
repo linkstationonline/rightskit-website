@@ -41,18 +41,36 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "General Sans";
+  src:
+    url("/fonts/GeneralSans-Variable.woff2") format("woff2"),
+    url("/fonts/GeneralSans-Variable.woff") format("woff");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* --- Type: family ------------------------------------------------------- */
-  --font-sans: "Switzer", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif;
-  --font-display: "Clash Grotesk", "Switzer", ui-sans-serif, system-ui,
-    sans-serif;
+  --font-sans: "Inter", "IBM Plex Sans", "Switzer", ui-sans-serif, system-ui,
+    -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "General Sans", "Clash Grotesk", "Switzer", ui-sans-serif,
+    system-ui, sans-serif;
   --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Type: scale (size / line-height / weight), fluid & mobile-first ---- */
-  --text-h1: clamp(2.75rem, 1rem + 6.7vw, 6.375rem);        /* 44 → 102 */
+  --text-h1: clamp(2.75rem, 1rem + 6.5vw, 5.875rem);        /* 44 → 94 */
   --text-h1--line-height: 0.95;
-  --text-h1--font-weight: 350;
+  --text-h1--font-weight: 400;
 
   --text-display: clamp(2.5rem, 1.5rem + 3vw, 4rem);        /* 40 → 64 */
   --text-display--line-height: 1.08;
@@ -67,8 +85,8 @@
   --text-h3--font-weight: 600;
 
   --text-body: 1.0625rem;                                   /* 17 (Figma) */
-  --text-body--line-height: 1.529;                          /* 26 / 17 */
-  --text-body--font-weight: 200;                            /* Switzer Extralight */
+  --text-body--line-height: 1.588;                          /* 27 / 17 */
+  --text-body--font-weight: 390;                            /* Inter, stepped down from 400 */
 
   --text-small: 0.875rem;                                   /* 14 */
   --text-small--line-height: 1.5;
@@ -85,7 +103,7 @@
   --color-brand-hover: #4a32e6;
 
   --color-ink: #1a1e3a;                /* headings / body on light (navy)  */
-  --color-ink-muted: #5b5d6b;          /* secondary text on light          */
+  --color-ink-muted: #6e6e6e;          /* secondary text on light          */
 
   --color-surface: #fffffb;            /* page background (light, Figma)   */
   --color-surface-muted: #f4f4f5;      /* subtle section tint              */
@@ -211,6 +229,9 @@
      so it doesn't break position: sticky. */
   body {
     overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   /* Headings default to the display face; body inherits --font-sans via Tailwind. */

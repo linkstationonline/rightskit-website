@@ -4,13 +4,39 @@ import HexMark from "./HexMark.astro";
 import ServiceRow from "./ServiceRow.astro";
 
 const lead =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam";
+  "Supercharge your existing efforts or uncover new revenue opportunities with our bolt-on services.";
 const rowBody =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.";
+  "Our data tools and network of trusted partners help rightsholders uncover the true value of their catalog. Take control of your data and unlock untapped revenue today.";
+// Inline Lucide icons (MIT). 24x24 stroke icons; sized/coloured via ServiceRow.
+const svg = (paths: string) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+const icons = {
+  // search (magnifying glass)
+  audit: svg('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'),
+  // check
+  managed: svg('<path d="M20 6 9 17l-4-4"/>'),
+  // play
+  sync: svg('<polygon points="6 3 20 12 6 21 6 3"/>'),
+};
 const rows = [
-  { title: "Data services", tags: ["Royalty audit", "Metadata", "Data matching"] },
-  { title: "Managed rights", tags: ["Metadata", "Data matching"] },
-  { title: "Sync licensing", tags: ["Metadata", "Data matching"] },
+  {
+    title: "Data audits",
+    icon: icons.audit,
+    body: "Find inconsistencies, missing information and incorrect catalog registrations with our metadata tools and audit. Fix data leaks, uncover new connections and get your royalties flowing to the right places.",
+    tags: ["Royalty audit", "Metadata", "Data matching"],
+  },
+  {
+    title: "Managed rights",
+    icon: icons.managed,
+    body: "Complement your in-house efforts or unlock an entirely new revenue stream with our bolt-on managed services. Increase your reach, supercharge your throughput and get more from your catalog.",
+    tags: ["Metadata", "Data matching"],
+  },
+  {
+    title: "Sync monitoring",
+    icon: icons.sync,
+    body: "Identify unlicensed and unauthorized commercial sync uses of your catalog across digital platforms. Recover revenue via retroactive licensing and fee resolution.",
+    tags: ["Metadata", "Data matching"],
+  },
 ];
 ---
 
@@ -29,23 +55,24 @@ const rows = [
       >
         <HexMark variant="outline" class="h-28" />
         <div class="mt-4 lg:mt-5">
-          <h2 class="text-h2 max-w-sm font-light tracking-[0.02em] leading-[1.25] lg:text-[38px]">
-            Actionable services,<br />no-risk pricing
+          <h2 class="text-h2 max-w-sm font-normal tracking-[0.02em] leading-[1.25] lg:text-[38px]">
+            Bolt-on services,<br />when you need them
           </h2>
-          <p class="text-body mt-6 max-w-md text-on-dark-muted opacity-90">{lead}</p>
+          <p class="mt-6 max-w-md text-[18px] leading-[27px] font-[350] text-on-dark-muted opacity-90">{lead}</p>
           <CtaButton class="mt-8">Get in touch</CtaButton>
         </div>
       </div>
     </div>
 
     <!-- Right: grey rows (row dividers span the full column width) -->
-    <div class="bg-[#f8f8f9] text-ink">
+    <div class="bg-[#f5f3f1] text-ink">
       {
         rows.map((r, i) => (
           <ServiceRow
             title={r.title}
-            body={rowBody}
+            body={r.body ?? rowBody}
             tags={r.tags}
+            icon={r.icon}
             index={i}
             class={i > 0 ? "border-t border-ink/10" : ""}
           />

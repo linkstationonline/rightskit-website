@@ -5,7 +5,7 @@ import bannerBg from "@/assets/media/rightskit-ugc-banner-bg.png";
 import bannerPhoto from "@/assets/media/rightskit-ugc-banner-photo.png";
 
 const body =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.";
+  "Monitoring and enforcement of unauthorized commercial sync on digital platforms. Through our managed service and trusted-partner network, we help rightsholders recover revenue that was previously out of reach. Bring your own data and supercharge your existing efforts, or unlock an entirely new revenue stream.";
 ---
 
 <!-- Constrained banner. Photo is a free background layer on the right (not a
@@ -27,30 +27,85 @@ const body =
 
       <!-- photo, background-right — scroll parallax -->
       <div class="absolute inset-y-0 right-0 -z-10 w-[62%] overflow-hidden lg:w-[42%]">
-        <Image
+        <!-- Parallax layer: holds the image AND the sound-wave overlays so the
+             waves travel with the photo. Positions are % of this layer. -->
+        <div
           id="ugcParallax"
-          src={bannerPhoto}
-          alt="Collage of user-generated content clips"
-          class="absolute inset-x-0 -top-[54%] h-[192%] w-full origin-left object-cover object-top will-change-transform"
-          widths={[500, 800, 1100]}
-          sizes="(max-width: 1024px) 62vw, 48vw"
-        />
+          class="absolute inset-x-0 -top-[54%] h-[192%] w-full origin-left will-change-transform"
+        >
+          <Image
+            src={bannerPhoto}
+            alt="Collage of user-generated content clips"
+            class="h-full w-full object-cover object-top"
+            widths={[500, 800, 1100]}
+            sizes="(max-width: 1024px) 62vw, 48vw"
+          />
+          {
+            /* One equaliser per phone, sitting on its music-note line. */
+            [
+              { left: "57%", top: "4%" },
+              { left: "23%", top: "20%" },
+              { left: "94%", top: "20%" },
+              { left: "59%", top: "39%" },
+              { left: "23%", top: "56%" },
+              { left: "94%", top: "57.5%" },
+            ].map((p) => (
+              <div
+                class="ugc-wave pointer-events-none absolute"
+                style={`left:${p.left};top:${p.top}`}
+                aria-hidden="true"
+              >
+                <span /><span /><span /><span /><span />
+              </div>
+            ))
+          }
+        </div>
       </div>
 
       <!-- text -->
       <div class="relative max-w-[80%] px-8 py-16 md:px-12 lg:max-w-[58%] lg:py-24">
-        <p class="font-plex text-eyebrow font-light tracking-[0.2em] text-on-dark-muted uppercase">
+        <p class="font-plex text-eyebrow font-[350] tracking-[0.2em] text-on-dark-muted uppercase">
           Unlicensed commercial sync
         </p>
-        <h2 class="text-h2 mt-4 max-w-2xl font-light tracking-[0.01em] leading-[1.25] lg:text-[38px]">
+        <h2 class="text-h2 mt-4 max-w-2xl font-normal tracking-[0.01em] leading-[1.25] lg:text-[38px]">
           Now accepting clients for unlicensed commercial UGC sync services
         </h2>
-        <p class="text-body mt-6 max-w-2xl text-on-dark-muted">{body}</p>
+        <p class="text-body mt-6 max-w-2xl font-[350] text-on-dark-muted">{body}</p>
         <CtaButton class="mt-8">Get in touch</CtaButton>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  /* Animated equaliser overlaid on each phone's music line. Sized as % of the
+     parallax layer so it scales/moves with the photo. */
+  .ugc-wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 1.1%;
+    width: 3.4%;
+    transform: translateX(-5px);
+  }
+  .ugc-wave span {
+    flex: 1 1 0;
+    background: #fffffb;
+    border-radius: 1px;
+    animation: ugc-wave 900ms ease-in-out infinite;
+  }
+  .ugc-wave span:nth-child(2) { animation-delay: 0.12s; }
+  .ugc-wave span:nth-child(3) { animation-delay: 0.24s; }
+  .ugc-wave span:nth-child(4) { animation-delay: 0.36s; }
+  .ugc-wave span:nth-child(5) { animation-delay: 0.48s; }
+  @keyframes ugc-wave {
+    0%, 100% { height: 25%; }
+    50% { height: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ugc-wave span { animation: none; height: 60%; }
+  }
+</style>
 
 <script>
   const img = document.getElementById("ugcParallax");

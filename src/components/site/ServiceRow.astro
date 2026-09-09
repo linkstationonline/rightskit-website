@@ -5,19 +5,30 @@ interface Props {
   title: string;
   body: string;
   tags: string[];
+  /** inline Lucide SVG markup for the icon above the heading */
+  icon?: string;
   class?: string;
   /** stagger index for the sequential scroll reveal */
   index?: number;
 }
-const { title, body, tags, class: className, index = 0 } = Astro.props;
+const { title, body, tags, icon, class: className, index = 0 } = Astro.props;
 ---
 
 <div class:list={["reveal", className]} style={`--reveal-delay:${index * 130}ms`}>
   <div
-    class="px-6 pt-12 pb-12 transition-colors duration-200 hover:bg-ink/[0.035] sm:px-8 lg:pt-14 lg:pr-10 lg:pb-14 lg:pl-12"
+    class="border-r-2 border-r-transparent px-6 pt-12 pb-12 transition-colors duration-200 hover:border-r-brand hover:bg-ink/[0.035] sm:px-8 lg:pt-14 lg:pr-10 lg:pb-14 lg:pl-12"
   >
-    <h3 class="text-h2 text-ink lg:text-[34px]">{title}</h3>
-    <p class="text-body mt-5 max-w-2xl text-ink-muted">{body}</p>
+    {
+      icon && (
+        <span
+          class="mb-4 block text-ink-muted [&>svg]:h-5 [&>svg]:w-5"
+          aria-hidden="true"
+          set:html={icon}
+        />
+      )
+    }
+    <h3 class="text-h2 font-[470] text-ink lg:text-[23px]">{title}</h3>
+    <p class="mt-3 max-w-[530px] text-[16px] leading-[25px] font-[390] text-ink-muted">{body}</p>
     <div class="mt-8 flex flex-wrap justify-end gap-2">
       {tags.map((t) => <Tag>{t}</Tag>)}
     </div>
