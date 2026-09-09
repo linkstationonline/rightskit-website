@@ -29,13 +29,13 @@ const rows = [
     title: "Managed rights",
     icon: icons.managed,
     body: "Complement your in-house efforts or unlock an entirely new revenue stream with our bolt-on managed services. Increase your reach, supercharge your throughput and get more from your catalog.",
-    tags: ["Metadata", "Data matching"],
+    tags: ["Sync licensing", "Administration", "Enforcement"],
   },
   {
     title: "Sync monitoring",
     icon: icons.sync,
     body: "Identify unlicensed and unauthorized commercial sync uses of your catalog across digital platforms. Recover revenue via retroactive licensing and fee resolution.",
-    tags: ["Metadata", "Data matching"],
+    tags: ["Unauthorized UGC", "Retroactive sync", "Revenue recovery"],
   },
 ];
 ---
@@ -48,10 +48,12 @@ const rows = [
   style="background-color:#fffffb;background-image:radial-gradient(rgba(26,30,58,0.13) 1.3px, transparent 1.3px);background-size:15px 15px;"
 >
   <div class="container-site grid grid-cols-1 border-x border-neutral-200 lg:grid-cols-2">
-    <!-- Left: dark intro, sticky on desktop -->
+    <!-- Left: dark intro. Navy fills the full column height; the inner content
+         pins to the top of the viewport while the grey rows scroll past, then
+         rides out with the section. (sticky works because <body> is overflow-x: clip.) -->
     <div class="bg-surface-dark text-on-dark">
       <div
-        class="px-8 pt-12 pb-16 md:px-12 lg:pt-16 lg:pr-12 lg:pb-24"
+        class="px-8 pt-12 pb-16 md:px-12 lg:sticky lg:top-[76px] lg:pt-16 lg:pr-12 lg:pb-24"
       >
         <HexMark variant="outline" class="h-28" />
         <div class="mt-4 lg:mt-5">
