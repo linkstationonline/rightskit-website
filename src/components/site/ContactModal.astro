@@ -38,6 +38,11 @@ import { Button } from "@/components/starwind/button";
   <!-- Light form area -->
   <div class="bg-neutral-100 p-0 sm:p-7">
     <form id="contactForm" autocomplete="off" class="bg-surface p-6 shadow-card sm:p-7">
+      <input type="hidden" name="access_key" value="6beabcf8-43e9-40d9-b8cf-7a06ba75b886" />
+      <input type="hidden" name="subject" value="New enquiry from rightskit.com" />
+      <input type="hidden" name="from_name" value="RightsKit website" />
+      {/* honeypot — bots fill this, humans never see it */}
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <div data-form>
         <label class="flex flex-col gap-2 font-plex text-[11px] font-[350] tracking-widest text-ink-muted uppercase">
           Email
@@ -81,6 +86,9 @@ import { Button } from "@/components/starwind/button";
         >
           Send message
         </Button>
+        <p data-error hidden class="mt-3 text-[13px] text-red-600">
+          Couldn't send — please email <a href="mailto:contact@rightskit.com" class="underline">contact@rightskit.com</a>.
+        </p>
       </div>
 
       <div data-thanks hidden class="py-8 text-center">
@@ -102,12 +110,14 @@ import { Button } from "@/components/starwind/button";
     const form = dlg.querySelector<HTMLFormElement>("#contactForm");
     const formView = dlg.querySelector<HTMLElement>("[data-form]");
     const thanks = dlg.querySelector<HTMLElement>("[data-thanks]");
+    const errEl = dlg.querySelector<HTMLElement>("[data-error]");
 
     const open = (e: Event) => {
       e.preventDefault();
       form?.reset();
       formView?.removeAttribute("hidden");
       thanks?.setAttribute("hidden", "");
+      errEl?.setAttribute("hidden", "");
       dlg.showModal();
     };
 
@@ -123,11 +133,34 @@ import { Button } from "@/components/starwind/button";
       if (e.target === dlg) dlg.close();
     });
 
-    form?.addEventListener("submit", (e) => {
+    form?.addEventListener("submit", async (e) => {
       e.preventDefault();
-      // No backend wired yet — show confirmation. Swap for a real POST when ready.
-      formView?.setAttribute("hidden", "");
-      thanks?.removeAttribute("hidden");
+      if (!form) return;
+      const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const label = btn?.textContent ?? "Send message";
+      errEl?.setAttribute("hidden", "");
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = "Sending…";
+      }
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { Accept: "application/json" },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message || "failed");
+        formView?.setAttribute("hidden", "");
+        thanks?.removeAttribute("hidden");
+      } catch {
+        errEl?.removeAttribute("hidden");
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      }
     });
 
     // Actively strip anything a password manager (LastPass etc.) injects into a
