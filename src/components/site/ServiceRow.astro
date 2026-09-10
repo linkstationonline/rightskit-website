@@ -16,13 +16,13 @@ const { title, body, tags, icon, class: className, index = 0 } = Astro.props;
 
 <div class:list={["reveal", className]} style={`--reveal-delay:${index * 130}ms`}>
   <div
-    class="border-r-2 border-r-transparent px-[max(22px,5%)] pt-14 pb-14 transition-colors duration-200 hover:border-r-brand hover:bg-ink/[0.035] sm:px-8 lg:pt-16 lg:pr-10 lg:pb-16 lg:pl-12"
+    class="border-r-2 border-r-brand bg-ink/[0.035] px-[max(22px,5%)] pt-14 pb-14 transition-colors duration-200 sm:px-8 lg:border-r-transparent lg:bg-transparent lg:pt-16 lg:pr-10 lg:pb-16 lg:pl-12 lg:hover:border-r-brand lg:hover:bg-ink/[0.035]"
   >
     {
       icon && (
         <span
           class="mb-5 inline-flex h-[52px] w-[52px] items-center justify-center bg-contain bg-center bg-no-repeat text-ink-muted [&>svg]:h-[22px] [&>svg]:w-[22px]"
-          style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Cpolygon points='26,3.5 45,14.5 45,37.5 26,48.5 7,37.5 7,14.5' fill='%23e9e8ea' stroke='%23e9e8ea' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E&quot;)"
+          style="background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'%3E%3Cpolygon points='26,3.5 45,14.5 45,37.5 26,48.5 7,37.5 7,14.5' fill='%23e0dee2' stroke='%23e0dee2' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E&quot;)"
           aria-hidden="true"
           set:html={icon}
         />

@@ -21,7 +21,8 @@ const ogImage = new URL("/og-image.jpg", Astro.site).href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!-- Preload the above-the-fold faces so first paint uses the real font — no
          swap/reflow. General Sans = H1, Inter (Latin subset, 60KB) = body,
          IBM Plex = nav/caps. -->

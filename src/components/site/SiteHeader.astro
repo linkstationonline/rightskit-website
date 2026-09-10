@@ -3,9 +3,13 @@ import Logo from "./Logo.astro";
 import CtaButton from "./CtaButton.astro";
 
 const links = [
-  { label: "Free composition search", href: "#" },
+  {
+    label: "Free composition search",
+    href: "https://product.coreysimons.com/composition-search",
+  },
   { label: "Services", href: "#services" },
 ];
+const ext = (href: string) => href.startsWith("http");
 ---
 
 <header class="sticky top-0 z-50 border-b border-neutral-300 bg-surface">
@@ -19,6 +23,8 @@ const links = [
         links.map((l) => (
           <a
             href={l.href}
+            target={ext(l.href) ? "_blank" : undefined}
+            rel={ext(l.href) ? "noopener noreferrer" : undefined}
             class="font-plex text-xs font-[430] tracking-widest text-ink uppercase transition-colors hover:text-brand"
           >
             {l.label}
@@ -37,6 +43,7 @@ const links = [
       class="inline-flex h-10 w-10 items-center justify-center rounded-md text-ink lg:hidden"
     >
       <svg
+        data-icon-open
         width="24"
         height="24"
         viewBox="0 0 24 24"
@@ -49,6 +56,19 @@ const links = [
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
+      <svg
+        data-icon-close
+        class="hidden"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
     </button>
   </div>
 
@@ -56,11 +76,13 @@ const links = [
     id="mobileNav"
     class="container-site hidden border-t border-border px-[max(22px,5%)] pb-6 sm:px-0 lg:hidden"
   >
-    <nav class="flex flex-col gap-4 pt-4">
+    <nav class="flex flex-col gap-4 pt-6">
       {
         links.map((l) => (
           <a
             href={l.href}
+            target={ext(l.href) ? "_blank" : undefined}
+            rel={ext(l.href) ? "noopener noreferrer" : undefined}
             class="text-sm font-medium tracking-[0.08em] text-ink uppercase"
           >
             {l.label}
@@ -75,8 +97,22 @@ const links = [
 <script>
   const btn = document.getElementById("navToggle");
   const menu = document.getElementById("mobileNav");
-  btn?.addEventListener("click", () => {
-    const nowOpen = menu?.classList.toggle("hidden") === false;
-    btn.setAttribute("aria-expanded", String(nowOpen));
-  });
+  const iconOpen = btn?.querySelector<HTMLElement>("[data-icon-open]");
+  const iconClose = btn?.querySelector<HTMLElement>("[data-icon-close]");
+
+  const setOpen = (open: boolean) => {
+    menu?.classList.toggle("hidden", !open);
+    btn?.setAttribute("aria-expanded", String(open));
+    iconOpen?.classList.toggle("hidden", open);
+    iconClose?.classList.toggle("hidden", !open);
+  };
+
+  btn?.addEventListener("click", () =>
+    setOpen(menu?.classList.contains("hidden") ?? false),
+  );
+
+  // Close the menu after selecting any item (links + CTA).
+  menu
+    ?.querySelectorAll<HTMLElement>("a, button")
+    .forEach((el) => el.addEventListener("click", () => setOpen(false)));
 </script>

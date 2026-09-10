@@ -1,0 +1,191 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import SiteHeader from "@/components/site/SiteHeader.astro";
+import SiteFooter from "@/components/site/SiteFooter.astro";
+import ContactModal from "@/components/site/ContactModal.astro";
+
+// Update this whenever the policy changes.
+const lastUpdated = "10 September 2026";
+const contactEmail = "contact@rightskit.com";
+---
+
+<BaseLayout
+  title="Privacy Policy — RightsKit"
+  description="How RightsKit collects, uses and protects your information across rightskit.com and the Composition Search tool."
+>
+  <SiteHeader />
+
+  <main id="main-content" class="container-site px-[max(22px,5%)] py-16 sm:px-0 lg:py-24">
+    <div class="mx-auto max-w-[720px]">
+      <h1 class="text-h2 font-normal tracking-[-0.01em] text-ink lg:text-[38px]">
+        Privacy Policy
+      </h1>
+      <p class="mt-3 font-plex text-[13px] tracking-widest text-ink-muted uppercase">
+        Last updated {lastUpdated}
+      </p>
+
+      <div class="mt-10 space-y-9 text-[16px] leading-[27px] font-[380] text-ink-muted [&_a]:text-brand [&_a]:underline [&_a]:underline-offset-2 [&_h2]:mb-2 [&_h2]:font-display [&_h2]:text-[22px] [&_h2]:font-normal [&_h2]:text-ink [&_ul]:list-disc [&_ul]:space-y-1.5 [&_ul]:pl-5">
+        <section>
+          <h2>Overview</h2>
+          <p>
+            RightsKit ("we", "us", "our") provides data tools and services for
+            rightsholders. This policy covers both our website at
+            <strong class="font-medium text-ink">rightskit.com</strong> and our
+            Composition Search tool at
+            <strong class="font-medium text-ink">search.rightskit.com</strong>. It
+            explains what personal information we collect, why, and the choices you
+            have. We keep data collection to the minimum needed to run these
+            services and respond to enquiries.
+          </p>
+        </section>
+
+        <section>
+          <h2>Information we collect</h2>
+          <ul>
+            <li>
+              <strong class="font-medium text-ink">Contact enquiries.</strong> When you use our contact
+              form, we collect the email address and message you provide, so we can
+              respond to you.
+            </li>
+            <li>
+              <strong class="font-medium text-ink">Composition Search queries.</strong> The ISRC you enter
+              is sent to our server to run the lookup. An ISRC is a public recording
+              identifier, not personal information, and it is not linked to you.
+            </li>
+            <li>
+              <strong class="font-medium text-ink">Match feedback.</strong> If you mark a Composition Search
+              result as a good or bad match, we store your verdict along with the
+              registration and confidence shown, plus a random anonymous identifier
+              generated in your browser (see Local storage below) so the same result
+              is not counted twice. No name, email or account is involved.
+            </li>
+            <li>
+              <strong class="font-medium text-ink">Technical logs.</strong> Our infrastructure providers
+              automatically process limited technical data such as IP address and
+              request metadata to deliver and secure the services. On Composition
+              Search, your IP address is also processed transiently to rate-limit and
+              protect the tool from abuse.
+            </li>
+            <li>
+              <strong class="font-medium text-ink">Cover art.</strong> On Composition Search, album art is
+              fetched from Deezer's public API using the ISRC. That request is made by
+              our server, not your browser.
+            </li>
+          </ul>
+          <p class="mt-3">
+            We do not use analytics or advertising trackers, and we do not build
+            marketing profiles.
+          </p>
+        </section>
+
+        <section>
+          <h2>Cookies and local storage</h2>
+          <p>
+            Neither service sets tracking, analytics or advertising cookies.
+            Cloudflare may set strictly-necessary cookies on the website (for example,
+            to mitigate bots); these are required for the site to function and do not
+            track you across other sites. Because we use no non-essential cookies, no
+            cookie-consent banner is shown.
+          </p>
+          <p class="mt-3">
+            Composition Search stores a single random identifier
+            (<code>cf_voter</code>) in your browser's local storage when you submit
+            feedback, to prevent duplicate votes. It contains no personal information
+            and you can clear it at any time through your browser settings.
+          </p>
+        </section>
+
+        <section>
+          <h2>How we use your information</h2>
+          <ul>
+            <li>To respond to your enquiry and discuss our services.</li>
+            <li>To run Composition Search lookups and improve match quality.</li>
+            <li>To operate, secure and maintain the website and the tool.</li>
+          </ul>
+          <p class="mt-3">
+            We do not sell your personal information, and we do not share it for
+            advertising.
+          </p>
+        </section>
+
+        <section>
+          <h2>Legal basis (UK / EU)</h2>
+          <p>
+            Where UK GDPR / EU GDPR applies, we rely on our <em>legitimate
+            interests</em> in operating, securing and improving our services, and on
+            your <em>consent</em> where you voluntarily submit your details through the
+            contact form.
+          </p>
+        </section>
+
+        <section>
+          <h2>Service providers</h2>
+          <p>
+            We use trusted providers to run our services and handle enquiries — for
+            example Cloudflare for website hosting and security, Hetzner (in Germany)
+            for hosting the Composition Search tool and its database, and an
+            email/forms provider to receive contact messages. These providers process
+            data on our behalf under appropriate agreements. Composition Search draws
+            on public data from The MLC (its bulk data feed) and Deezer (cover art);
+            that data remains the property of its respective owners and no affiliation
+            or endorsement is implied.
+          </p>
+        </section>
+
+        <section>
+          <h2>Where your data is processed</h2>
+          <p>
+            The website is delivered through Cloudflare's global network. The
+            Composition Search tool and its database are hosted on servers in the
+            European Union (Germany). Where data is processed outside your region, we
+            rely on appropriate safeguards for any such transfer.
+          </p>
+        </section>
+
+        <section>
+          <h2>Data retention</h2>
+          <p>
+            We keep enquiry emails and messages only as long as needed to respond and
+            to maintain a record of our correspondence, after which they are deleted
+            or anonymised. Composition Search feedback is retained in anonymous form to
+            monitor and improve match quality; server logs are kept only briefly.
+          </p>
+        </section>
+
+        <section>
+          <h2>Your rights</h2>
+          <p>
+            Depending on your location, you may have the right to access, correct,
+            delete or restrict the processing of your personal information, and to
+            object to processing or request portability. To exercise any of these,
+            contact us at <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+            Because Composition Search feedback is not tied to your identity, we may be
+            unable to link specific records to you. You also have the right to complain
+            to your local data protection authority.
+          </p>
+        </section>
+
+        <section>
+          <h2>Contact</h2>
+          <p>
+            Questions about this policy or your data? Email{" "}
+            <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+          </p>
+        </section>
+
+        <section>
+          <h2>Changes to this policy</h2>
+          <p>
+            We may update this policy from time to time. Material changes will be
+            reflected by updating the "Last updated" date above.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <div class="h-8 w-full bg-brand"></div>
+  <SiteFooter />
+  <ContactModal />
+</BaseLayout>
