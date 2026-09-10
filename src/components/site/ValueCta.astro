@@ -12,14 +12,14 @@ import HexMark from "./HexMark.astro";
   style="background-color:#fffffb;background-image:radial-gradient(rgba(26,30,58,0.13) 1.3px, transparent 1.3px);background-size:15px 15px;"
 >
   <div
-    class="container-site border-x border-neutral-200 bg-surface py-20 text-center lg:py-24"
+    class="container-site border-x border-neutral-200 bg-surface px-[max(22px,5%)] py-20 text-center sm:px-0 lg:py-24"
   >
     <div class="mx-auto max-w-4xl">
       <HexMark variant="dark" class="reveal reveal-icon mx-auto h-12" />
       <h2 class="text-display mt-5 font-[410] tracking-[-0.015em] text-ink">
-        Uncover the true value<br />of your copyrights
+        Uncover the true value<span class="hidden max-[440px]:inline"> </span><br class="max-[440px]:hidden" />of your copyrights
       </h2>
-      <p class="text-body mx-auto mt-6 max-w-2xl text-ink-muted">
+      <p class="text-body mx-auto mt-6 max-w-2xl text-pretty text-ink-muted max-sm:text-[16px] max-sm:leading-[25px]">
         Take control of your data and start unlocking untapped revenue today.
       </p>
       <CtaButton class="mt-8">Get in touch</CtaButton>

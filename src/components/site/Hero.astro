@@ -12,32 +12,38 @@ const body =
 
 <section
   id="hero"
-  class="relative overflow-hidden border-b border-neutral-300 bg-surface lg:min-h-[44rem]"
+  class="relative overflow-hidden border-b border-neutral-300 bg-surface min-h-[calc(100svh-137px)]"
 >
   <!-- Copy (container is click-through so the hexes behind it stay hoverable) -->
-  <div class="container-site pointer-events-none relative z-40 py-10 lg:py-14">
-    <div class="pointer-events-auto max-w-xl lg:pt-14">
-      <h1 class="text-h1 font-[390] tracking-[-0.015em] text-ink">Your rights<br />data toolkit</h1>
-      <p class="mt-6 max-w-[530px] text-[17.5px] leading-[27px] font-[390] text-ink-muted">{body}</p>
+  <div class="container-site pointer-events-none relative z-40 px-[max(22px,5%)] py-10 sm:px-0 max-lg:pt-20 lg:py-14 lg:max-[1280px]:-translate-y-[6%]">
+    <div class="pointer-events-auto lg:max-w-xl lg:pt-14">
+      <h1 class="text-h1 font-[390] tracking-[-0.015em] text-ink">Your rights<span class="lg:hidden"> </span><br class="hidden lg:inline" /><span class="whitespace-nowrap">data toolkit</span></h1>
+      <p class="mt-6 max-w-[480px] text-[16px] leading-[25px] font-[380] text-pretty text-ink-muted">{body}</p>
       <CtaButton class="mt-8">Get in touch</CtaButton>
     </div>
 
-    <!-- Mobile / tablet cluster (below the copy) — equal-size hexagons -->
-    <div class="relative mt-10 aspect-[5/4] w-full lg:hidden">
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-10" style="left:6%;top:44%;width:50.6%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-20" style="left:27%;top:22%;width:50.6%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman in sunglasses on rocks by the sea" class="z-30" style="left:48%;top:0%;width:50.6%" />
+  </div>
+
+  <!-- Mobile / tablet (<lg): a horizontal row of hexes running under the copy,
+       drifting left. Images repeat every 3 so a translate of one period loops. -->
+  <div class="relative mt-8 h-[max(60vw,340px)] w-full overflow-hidden lg:hidden">
+    <div class="hex-row absolute inset-y-0 left-0 w-[max(100%,610px)]">
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:-141%;top:0;width:46%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:-94%;top:0;width:46%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" style="left:-47%;top:0;width:46%" />
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:0%;top:0;width:46%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:47%;top:0;width:46%" />
+      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" style="left:94%;top:0;width:46%" />
+      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:141%;top:0;width:46%" />
+      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:188%;top:0;width:46%" />
     </div>
   </div>
 
-  <!-- Desktop cluster: hexagons on a rising diagonal, drifting up-right along the
-       line. Images repeat every 3 so a translate of one 3-step period loops
-       seamlessly. Pauses on hover. -->
-  <div
-    class="absolute inset-0 z-10 hidden lg:block"
-    style="-webkit-mask-image:linear-gradient(to top right, transparent 0%, black 17%);mask-image:linear-gradient(to top right, transparent 0%, black 17%);"
-  >
-    <div class="hex-conveyor absolute inset-0">
+  <!-- Desktop cluster (lg+): hexagons on a rising diagonal, drifting up-right
+       along the line. Images repeat every 3 so a translate of one 3-step period
+       loops seamlessly. -->
+  <div class="hidden lg:block lg:absolute lg:inset-0 z-10 lg:translate-x-[clamp(0px,92px-6vw,46px)] lg:translate-y-[clamp(0px,254px-16.5vw,127px)]">
+    <div class="hex-conveyor absolute left-[4%] -top-[14%] aspect-[1440/704] w-[clamp(100%,calc(100%+(1536px-100vw)*0.3),140%)]">
       <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[1]" style="left:-33%;top:146%;width:28.6%" />
       <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[2]" style="left:-11.5%;top:117%;width:28.6%" />
       <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[3]" style="left:10%;top:88%;width:28.6%" />
@@ -54,6 +60,31 @@ const body =
 <style>
   .hex-conveyor {
     animation: hex-drift 60s linear infinite;
+    /* own compositor layer so the mask composites it without repainting the
+       9 images every frame */
+    will-change: transform;
+  }
+  /* mobile horizontal row: drift left by one 3-image period (3 × 29%) */
+  .hex-row {
+    animation: hex-row-drift 45s linear infinite;
+    will-change: transform;
+  }
+  @keyframes hex-row-drift {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(141%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hex-row {
+      animation: none;
+    }
+  }
+  /* paused when the hero is scrolled out of view (toggled from JS) */
+  .hex-conveyor.is-paused {
+    animation-play-state: paused;
   }
   /* one 3-step period: +64.5% x, -87% y (each step is +21.5% / -29%) */
   @keyframes hex-drift {
@@ -75,9 +106,32 @@ const body =
   // Cursor-reactive 3D tilt. A rAF loop reads each hexagon's LIVE position so the
   // tilt stays correct while they drift; only the topmost hovered hex tilts.
   const hero = document.getElementById("hero");
+  // Fill exactly the viewport minus whatever sits above the hero (announcement
+  // bar + sticky nav). offsetTop = their combined height, so this stays correct
+  // at every breakpoint (the announcement bar is taller when it stacks on mobile).
   if (hero) {
+    // Fill the viewport under the bars, but never taller than 0.8× the width
+    // (so it doesn't become a super-long panel on portrait phones/tablets).
+    const fit = () =>
+      hero.style.setProperty(
+        "min-height",
+        `min(calc(100svh - ${hero.offsetTop}px), 80vw)`,
+      );
+    fit();
+    window.addEventListener("resize", fit);
+  }
+  // Pause the drifting conveyor whenever the hero is off-screen so it isn't
+  // burning GPU/compositing while you're reading the rest of the page.
+  const conveyor = hero?.querySelector<HTMLElement>(".hex-conveyor");
+  if (hero && conveyor && "IntersectionObserver" in window) {
+    new IntersectionObserver(
+      ([e]) => conveyor.classList.toggle("is-paused", !e.isIntersecting),
+    ).observe(hero);
+  }
+  if (hero) {
+    // desktop conveyor only — the mobile horizontal row (.hex-row) gets no tilt
     const hexes = Array.from(
-      hero.querySelectorAll<HTMLElement>(".hero-hex"),
+      hero.querySelectorAll<HTMLElement>(".hex-conveyor .hero-hex"),
     ).map((el) => ({ el, inner: el.querySelector<HTMLElement>(".hero-hex-inner") }));
     let mx: number | null = null;
     let my: number | null = null;

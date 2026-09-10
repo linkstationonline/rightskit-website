@@ -13,7 +13,7 @@ const body =
 <section class="py-20 lg:py-28">
   <div class="container-site">
     <div
-      class="relative isolate flex min-h-[26rem] items-center overflow-hidden text-on-dark lg:min-h-[34rem]"
+      class="relative isolate flex flex-col overflow-hidden text-on-dark lg:min-h-[34rem] lg:flex-row lg:items-center"
     >
       <!-- gradient / texture background -->
       <Image
@@ -25,20 +25,21 @@ const body =
         sizes="(max-width: 1360px) 100vw, 1360px"
       />
 
-      <!-- photo, background-right — scroll parallax -->
-      <div class="absolute inset-y-0 right-0 -z-10 w-[62%] overflow-hidden lg:w-[42%]">
+      <!-- photo. Below lg: a full-width band ABOVE the text. At lg: background-
+           right column with scroll parallax. -->
+      <div class="relative h-[240px] w-full overflow-hidden sm:h-[300px] lg:absolute lg:inset-y-0 lg:right-0 lg:-z-10 lg:h-auto lg:w-[42%]">
         <!-- Parallax layer: holds the image AND the sound-wave overlays so the
              waves travel with the photo. Positions are % of this layer. -->
         <div
           id="ugcParallax"
-          class="absolute inset-x-0 -top-[54%] h-[192%] w-full origin-left will-change-transform"
+          class="absolute inset-x-0 top-0 h-full w-full origin-center will-change-transform lg:-top-[54%] lg:h-[192%] lg:origin-left"
         >
           <Image
             src={bannerPhoto}
             alt="Collage of user-generated content clips"
-            class="h-full w-full object-cover object-top"
+            class="h-full w-full origin-center object-cover object-center max-lg:scale-[1.2] lg:object-top"
             widths={[500, 800, 1100]}
-            sizes="(max-width: 1024px) 62vw, 48vw"
+            sizes="(max-width: 1024px) 100vw, 48vw"
           />
           {
             /* One equaliser per phone, sitting on its music-note line. */
@@ -63,15 +64,15 @@ const body =
       </div>
 
       <!-- text -->
-      <div class="relative max-w-[80%] px-8 py-16 md:px-12 lg:max-w-[58%] lg:py-24">
+      <div class="relative w-full px-[max(22px,5%)] py-12 sm:px-8 md:px-12 lg:w-auto lg:max-w-[58%] lg:py-24">
         <p class="font-plex text-eyebrow font-[350] tracking-[0.2em] text-on-dark-muted uppercase">
           Unlicensed commercial sync
         </p>
-        <h2 class="text-h2 mt-4 max-w-2xl font-normal tracking-[0.01em] leading-[1.25] lg:text-[38px]">
+        <h2 class="text-h2 mt-4 max-w-2xl font-normal tracking-[0.01em] text-pretty leading-[1.25] lg:text-[38px]">
           Now accepting clients for unlicensed commercial UGC sync services
         </h2>
-        <p class="text-body mt-6 max-w-2xl font-[350] text-on-dark-muted">{body}</p>
-        <CtaButton class="mt-8">Get in touch</CtaButton>
+        <p class="text-body mt-6 max-w-2xl font-[330] text-pretty text-on-dark-muted max-sm:text-[16px] max-sm:leading-[25px]">{body}</p>
+        <CtaButton class="mt-8">Get started</CtaButton>
       </div>
     </div>
   </div>
@@ -90,6 +91,9 @@ const body =
   }
   .ugc-wave span {
     flex: 1 1 0;
+    height: 100%;
+    transform: scaleY(0.25);
+    transform-origin: bottom;
     background: #fffffb;
     border-radius: 1px;
     animation: ugc-wave 900ms ease-in-out infinite;
@@ -98,12 +102,17 @@ const body =
   .ugc-wave span:nth-child(3) { animation-delay: 0.24s; }
   .ugc-wave span:nth-child(4) { animation-delay: 0.36s; }
   .ugc-wave span:nth-child(5) { animation-delay: 0.48s; }
+  /* animate transform (composited) not height (forces layout every frame) */
   @keyframes ugc-wave {
-    0%, 100% { height: 25%; }
-    50% { height: 100%; }
+    0%, 100% { transform: scaleY(0.25); }
+    50% { transform: scaleY(1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .ugc-wave span { animation: none; height: 60%; }
+    .ugc-wave span { animation: none; transform: scaleY(0.6); }
+  }
+  /* waves are positioned for the tall desktop column — hide on the stacked band */
+  @media (max-width: 1023px) {
+    .ugc-wave { display: none; }
   }
 </style>
 
@@ -112,20 +121,31 @@ const body =
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (img && !reduce) {
     let ticking = false;
+    let visible = true;
     const update = () => {
       const r = img.getBoundingClientRect();
       const vh = window.innerHeight;
       const p = (r.top + r.height / 2 - vh / 2) / (vh / 2 + r.height / 2);
-      const shift = Math.max(-1, Math.min(1, p)) * -190;
+      // shift scales with the layer height: ~190px on the tall desktop column,
+      // gently smaller on the short stacked band.
+      const shift = Math.max(-1, Math.min(1, p)) * -(img.offsetHeight * 0.19);
       img.style.transform = `translateY(${shift}px) scale(1.1)`;
       ticking = false;
     };
     const onScroll = () => {
-      if (!ticking) {
+      if (visible && !ticking) {
         ticking = true;
         requestAnimationFrame(update);
       }
     };
+    // Only listen/compute while the banner section is on screen.
+    const section = img.closest("section");
+    if (section && "IntersectionObserver" in window) {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible) update();
+      }).observe(section);
+    }
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     update();

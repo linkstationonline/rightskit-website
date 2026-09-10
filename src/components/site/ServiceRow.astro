@@ -16,7 +16,7 @@ const { title, body, tags, icon, class: className, index = 0 } = Astro.props;
 
 <div class:list={["reveal", className]} style={`--reveal-delay:${index * 130}ms`}>
   <div
-    class="border-r-2 border-r-transparent px-6 pt-12 pb-12 transition-colors duration-200 hover:border-r-brand hover:bg-ink/[0.035] sm:px-8 lg:pt-14 lg:pr-10 lg:pb-14 lg:pl-12"
+    class="border-r-2 border-r-transparent px-[max(22px,5%)] pt-14 pb-14 transition-colors duration-200 hover:border-r-brand hover:bg-ink/[0.035] sm:px-8 lg:pt-16 lg:pr-10 lg:pb-16 lg:pl-12"
   >
     {
       icon && (
@@ -27,9 +27,9 @@ const { title, body, tags, icon, class: className, index = 0 } = Astro.props;
         />
       )
     }
-    <h3 class="text-h2 font-[470] text-ink lg:text-[23px]">{title}</h3>
-    <p class="mt-3 max-w-[530px] text-[16px] leading-[25px] font-[390] text-ink-muted">{body}</p>
-    <div class="mt-8 flex flex-wrap justify-end gap-2">
+    <h3 class="text-[23px] font-[470] leading-[1.15] text-ink">{title}</h3>
+    <p class="mt-3 max-w-[530px] text-[16px] leading-[25px] font-[380] text-pretty text-ink-muted">{body}</p>
+    <div class="mt-8 flex flex-wrap justify-start gap-2 sm:justify-end">
       {tags.map((t) => <Tag>{t}</Tag>)}
     </div>
   </div>

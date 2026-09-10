@@ -68,7 +68,7 @@
   --font-plex: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
 
   /* --- Type: scale (size / line-height / weight), fluid & mobile-first ---- */
-  --text-h1: clamp(2.75rem, 1rem + 6.5vw, 5.875rem);        /* 44 → 94 */
+  --text-h1: clamp(3.875rem, 1rem + 5.5vw, 5.625rem);       /* 62 → 90, caps ~1380 */
   --text-h1--line-height: 0.95;
   --text-h1--font-weight: 400;
 
@@ -86,7 +86,7 @@
 
   --text-body: 1.0625rem;                                   /* 17 (Figma) */
   --text-body--line-height: 1.588;                          /* 27 / 17 */
-  --text-body--font-weight: 390;                            /* Inter, stepped down from 400 */
+  --text-body--font-weight: 380;                            /* Inter light-bg body */
 
   --text-small: 0.875rem;                                   /* 14 */
   --text-small--line-height: 1.5;
@@ -192,18 +192,23 @@
    Section backgrounds bleed full-width because they live on the <section>;
    this only constrains the CONTENT. */
 .container-site {
-  width: calc(100% - 4rem); /* ≥32px each side */
+  width: 100%; /* full-bleed below sm (640px) */
   max-width: 1360px;
   margin-inline: auto;
 }
 @media (min-width: 640px) {
   .container-site {
-    width: calc(100% - 5rem); /* ≥40px each side */
+    width: calc(100% - 56px); /* 28px each side (641–767) */
+  }
+}
+@media (min-width: 768px) {
+  .container-site {
+    width: calc(100% - 5rem); /* 40px each side */
   }
 }
 @media (min-width: 1024px) {
   .container-site {
-    width: calc(100% - 6rem); /* ≥48px each side */
+    width: calc(100% - 6rem); /* 48px each side */
   }
 }
 
@@ -248,7 +253,6 @@
       opacity var(--duration-slow) var(--ease-out-soft),
       transform var(--duration-slow) var(--ease-out-soft);
     transition-delay: var(--reveal-delay, 0ms);
-    will-change: opacity, transform;
   }
   .reveal.is-visible {
     opacity: 1;

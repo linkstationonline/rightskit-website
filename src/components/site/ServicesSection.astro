@@ -53,15 +53,15 @@ const rows = [
          rides out with the section. (sticky works because <body> is overflow-x: clip.) -->
     <div class="bg-surface-dark text-on-dark">
       <div
-        class="px-8 pt-12 pb-16 md:px-12 lg:sticky lg:top-[76px] lg:pt-16 lg:pr-12 lg:pb-24"
+        class="px-[max(22px,5%)] pt-12 pb-16 sm:px-8 md:px-12 lg:sticky lg:top-[76px] lg:pt-24 lg:pr-12 lg:pb-40"
       >
         <HexMark variant="outline" class="h-28" />
         <div class="mt-4 lg:mt-5">
-          <h2 class="text-h2 max-w-sm font-normal tracking-[0.02em] leading-[1.25] lg:text-[38px]">
+          <h2 class="text-h2 max-w-sm font-normal tracking-[0.02em] leading-[1.25] lg:text-[clamp(34px,24.2px+0.96vw,38px)]">
             Bolt-on services,<br />when you need them
           </h2>
-          <p class="mt-6 max-w-md text-[18px] leading-[27px] font-[350] text-on-dark-muted opacity-90">{lead}</p>
-          <CtaButton class="mt-8">Get in touch</CtaButton>
+          <p class="mt-6 max-w-md text-[18px] leading-[27px] font-[330] text-pretty text-on-dark-muted opacity-90 max-sm:text-[16px] max-sm:leading-[25px]">{lead}</p>
+          <CtaButton class="mt-8">Get started</CtaButton>
         </div>
       </div>
     </div>
