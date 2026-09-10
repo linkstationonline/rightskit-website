@@ -1,0 +1,126 @@
+---
+import Logo from "./Logo.astro";
+import { Button } from "@/components/starwind/button";
+// Contact modal — opened by any element with [data-contact] (all CtaButtons).
+// Native <dialog> gives backdrop + Escape handling for free.
+---
+
+<dialog
+  id="contactModal"
+  class="m-auto max-h-[92vh] w-[min(94vw,560px)] overflow-hidden border-0 bg-surface p-0 text-ink shadow-raised backdrop:bg-ink/55"
+  aria-labelledby="contactModalTitle"
+>
+  <button
+    type="button"
+    data-close
+    aria-label="Close"
+    class="absolute top-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-md text-on-dark-muted transition-colors hover:bg-white/10 hover:text-on-dark"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <path d="M18 6 6 18M6 6l12 12"></path>
+    </svg>
+  </button>
+
+  <!-- Dark header -->
+  <div class="bg-surface-dark px-8 pt-7 pb-10 text-on-dark sm:px-10 sm:pt-8">
+    <Logo variant="light" class="h-8" />
+    <h2
+      id="contactModalTitle"
+      class="mt-9 font-display text-[32px] leading-[1.1] font-normal text-on-dark"
+    >
+      Let's talk rights
+    </h2>
+    <p class="mt-4 text-[16px] leading-[25px] font-[330] text-pretty text-on-dark-muted">
+      Add your email and a short message and we'll get back to you to discuss how RightsKit can help get more out of your catalog.
+    </p>
+  </div>
+
+  <!-- Light form area -->
+  <div class="bg-neutral-100 p-5 sm:p-7">
+    <form id="contactForm" autocomplete="off" class="bg-surface p-6 shadow-card sm:p-7">
+      <div data-form>
+        <label class="flex flex-col gap-2 font-plex text-[11px] font-[350] tracking-widest text-ink-muted uppercase">
+          Email
+          <input
+            type="email"
+            name="email"
+            required
+            autocomplete="off"
+            data-1p-ignore
+            data-lpignore="true"
+            data-bwignore
+            data-form-type="other"
+            placeholder="you@company.com"
+            class="h-[50px] w-full rounded-lg border border-neutral-200 bg-surface px-4 font-sans text-[15px] tracking-normal text-ink normal-case outline-none transition-colors placeholder:text-neutral-500 focus:border-brand"
+          />
+        </label>
+
+        <label class="mt-5 flex flex-col gap-2 font-plex text-[11px] font-[350] tracking-widest text-ink-muted uppercase">
+          Message
+          <textarea
+            name="message"
+            rows="5"
+            required
+            placeholder="How can we help?"
+            class="w-full resize-none rounded-lg border border-neutral-200 bg-surface px-4 py-3 font-sans text-[15px] leading-normal tracking-normal text-ink normal-case outline-none transition-colors placeholder:text-neutral-500 focus:border-brand"
+          ></textarea>
+        </label>
+
+        <Button
+          type="submit"
+          variant="primary"
+          size="sm"
+          class="cta-glow mt-6 w-full font-plex text-xs font-[350] tracking-widest uppercase"
+        >
+          Send message
+        </Button>
+      </div>
+
+      <div data-thanks hidden class="py-8 text-center">
+        <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 text-brand">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6 9 17l-5-5"></path>
+          </svg>
+        </div>
+        <h3 class="mt-4 font-display text-[22px] font-normal text-ink">Message sent</h3>
+        <p class="mt-1.5 text-[15px] text-ink-muted">We'll be in touch shortly.</p>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+  const dlg = document.getElementById("contactModal") as HTMLDialogElement | null;
+  if (dlg) {
+    const form = dlg.querySelector<HTMLFormElement>("#contactForm");
+    const formView = dlg.querySelector<HTMLElement>("[data-form]");
+    const thanks = dlg.querySelector<HTMLElement>("[data-thanks]");
+
+    const open = (e: Event) => {
+      e.preventDefault();
+      form?.reset();
+      formView?.removeAttribute("hidden");
+      thanks?.setAttribute("hidden", "");
+      dlg.showModal();
+    };
+
+    document
+      .querySelectorAll<HTMLElement>("[data-contact]")
+      .forEach((b) => b.addEventListener("click", open));
+
+    dlg
+      .querySelector<HTMLElement>("[data-close]")
+      ?.addEventListener("click", () => dlg.close());
+
+    dlg.addEventListener("click", (e) => {
+      if (e.target === dlg) dlg.close();
+    });
+
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // No backend wired yet — show confirmation. Swap for a real POST when ready.
+      formView?.setAttribute("hidden", "");
+      thanks?.removeAttribute("hidden");
+    });
+  }
+</script>

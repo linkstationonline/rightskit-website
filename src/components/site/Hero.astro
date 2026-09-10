@@ -44,7 +44,7 @@ const rowHexes = Array.from({ length: 12 }, (_, i) => ({
     <div class="pointer-events-auto lg:max-w-xl lg:pt-14">
       <h1 class="text-h1 -ml-[3px] font-[390] tracking-[-0.015em] text-ink">Your rights<span class="lg:hidden"> </span><br class="hidden lg:inline" /><span class="whitespace-nowrap">data toolkit</span></h1>
       <p class="mt-6 max-w-[480px] text-[16px] leading-[25px] font-[380] text-pretty text-ink-muted">{body}</p>
-      <CtaButton class="mt-8">Get in touch</CtaButton>
+      <CtaButton class="mt-8">See a demo</CtaButton>
     </div>
 
   </div>
@@ -63,13 +63,15 @@ const rowHexes = Array.from({ length: 12 }, (_, i) => ({
 
   <!-- Desktop cluster (lg+): hexagons on a rising diagonal, drifting up-right.
        4-image cycle → a translate of one 4-step period loops seamlessly. -->
-  <div class="hidden lg:block lg:absolute lg:inset-0 z-10 lg:translate-x-[clamp(0px,92px-6vw,46px)] lg:translate-y-[clamp(0px,254px-16.5vw,127px)]">
-    <div class="hex-conveyor absolute left-[4%] -top-[14%] aspect-[1440/704] w-[clamp(100%,calc(100%+(1536px-100vw)*0.3),140%)]">
+  <div class="hidden lg:block lg:absolute lg:inset-0 z-10">
+    <div class="relative mx-auto h-full w-full max-w-[1920px] lg:translate-x-[clamp(0px,92px-6vw,46px)] lg:translate-y-[clamp(0px,254px-16.5vw,127px)]">
+      <div class="hex-conveyor absolute left-[4%] -top-[14%] aspect-[1440/704] w-[clamp(100%,calc(100%+(1536px-100vw)*0.3),140%)]">
       {
         conveyorHexes.map((h) => (
           <HeroHexPhoto src={h.img} credit detail={h.detail} alt={h.alt} style={`left:${h.left}%;top:${h.top}%;width:28.6%;z-index:${h.z}`} />
         ))
       }
+      </div>
     </div>
   </div>
 </section>
@@ -132,7 +134,7 @@ const rowHexes = Array.from({ length: 12 }, (_, i) => ({
     const fit = () =>
       hero.style.setProperty(
         "min-height",
-        `min(calc(100svh - ${hero.offsetTop}px), 80vw)`,
+        `min(calc(100svh - ${hero.offsetTop}px), 80vw, 1100px)`,
       );
     fit();
     window.addEventListener("resize", fit);

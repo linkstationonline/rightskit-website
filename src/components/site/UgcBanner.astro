@@ -3,6 +3,7 @@ import { Image } from "astro:assets";
 import CtaButton from "./CtaButton.astro";
 import bannerBg from "@/assets/media/rightskit-ugc-banner-bg.png";
 import bannerPhoto from "@/assets/media/rightskit-ugc-banner-photo.png";
+import bannerMobile from "@/assets/media/rightskit-ugc-banner-mobile.png";
 
 const body =
   "Monitoring and enforcement of unauthorized commercial sync on UGC platforms. Through our managed service and trusted-partner network, we recover revenue that was previously out of reach. Bring your own data and supercharge your existing efforts, or unlock an entirely new revenue stream.";
@@ -10,7 +11,7 @@ const body =
 
 <!-- Constrained banner. Photo is a free background layer on the right (not a
      rigid column), so it can scale/bleed; text sits on the left. -->
-<section class="py-20 lg:py-28">
+<section id="ugc" class="py-20 lg:py-[120px]">
   <div class="container-site">
     <div
       class="relative isolate flex flex-col overflow-hidden text-on-dark lg:min-h-[34rem] lg:flex-row lg:items-center"
@@ -29,19 +30,31 @@ const body =
       <!-- photo. Below lg: a full-width band ABOVE the text. At lg: background-
            right column with scroll parallax. -->
       <div class="relative h-[240px] w-full overflow-hidden sm:h-[300px] lg:absolute lg:inset-y-0 lg:right-0 lg:-z-10 lg:h-auto lg:w-[42%]">
-        <!-- Parallax layer: holds the image AND the sound-wave overlays so the
-             waves travel with the photo. Positions are % of this layer. -->
+        <!-- Mobile (<lg): a lightweight pre-cropped strip — a fraction of the
+             full collage's weight. Hidden (never fetched) on desktop. -->
+        <Image
+          src={bannerMobile}
+          alt=""
+          aria-hidden="true"
+          class="h-full w-full object-cover object-center lg:hidden"
+          widths={[480, 768, 1024]}
+          sizes="100vw"
+          quality={60}
+          loading="lazy"
+        />
+        <!-- Desktop (lg+): the full tall collage, with scroll parallax. -->
         <div
           id="ugcParallax"
-          class="absolute inset-x-0 top-0 h-full w-full origin-center will-change-transform lg:-top-[54%] lg:h-[192%] lg:origin-left"
+          class="hidden origin-left will-change-transform lg:absolute lg:inset-x-0 lg:-top-[54%] lg:block lg:h-[192%]"
         >
           <Image
             src={bannerPhoto}
             alt="Collage of user-generated content clips"
-            class="h-full w-full origin-center object-cover object-center max-lg:scale-[1.2]"
+            class="h-full w-full object-cover object-top"
             widths={[500, 800, 1100]}
-            sizes="(max-width: 1024px) 100vw, 48vw"
+            sizes="48vw"
             quality={62}
+            loading="lazy"
           />
         </div>
       </div>

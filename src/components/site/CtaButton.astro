@@ -6,6 +6,8 @@ interface Props {
   class?: string;
   variant?: "primary" | "outline" | "default" | "ghost" | "secondary";
   size?: "sm" | "md" | "lg";
+  /** Opens the contact modal (default). Set false for a plain link button. */
+  contact?: boolean;
 }
 
 const {
@@ -13,6 +15,7 @@ const {
   class: className,
   variant = "primary",
   size = "sm",
+  contact = true,
 } = Astro.props;
 ---
 
@@ -21,6 +24,7 @@ const {
   href={href}
   variant={variant}
   size={size}
+  data-contact={contact ? "" : undefined}
   class:list={[
     "cta-glow font-plex text-xs font-[350] tracking-widest uppercase",
     className,

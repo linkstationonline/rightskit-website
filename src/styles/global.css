@@ -229,7 +229,35 @@
    Base: motion + smooth scroll + scroll-reveal utility.
    The IntersectionObserver that adds `.is-visible` lives in BaseLayout.astro.
    -------------------------------------------------------------------------- */
+/* Kill the LastPass (and similar) injected autofill icon/overlay + its layout
+   push. Broad match — these managers inject with varying markers. */
+[data-lastpass-icon-root],
+[data-lastpass-root],
+[data-lastpass-infield],
+[id^="__lpform"],
+[id*="lastpass"],
+[class*="lastpass"],
+com-1password-button,
+[data-dashlane-rid] {
+  display: none !important;
+}
+input[data-lpignore],
+input[data-1p-ignore] {
+  background-image: none !important;
+}
+
 @layer base {
+  /* Smooth in-page scrolling, with anchor targets offset below the sticky nav. */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   /* Kill horizontal overflow from full-bleed (100vw) elements — prevents a phantom
      horizontal scrollbar and the jittery scrolling it causes. `clip` (not hidden)
      so it doesn't break position: sticky. */
