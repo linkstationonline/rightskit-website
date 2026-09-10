@@ -13,9 +13,11 @@ interface Props {
   class?: string;
   /** left / top / width, e.g. "left:16%;top:60%;width:24.5%" */
   style?: string;
+  /** Load the photo immediately (for the moving row, so hexes don't pop in late). */
+  eager?: boolean;
 }
 
-const { src, alt, credit = false, detail, class: className, style } = Astro.props;
+const { src, alt, credit = false, detail, class: className, style, eager = false } = Astro.props;
 ---
 
 <div class:list={["hero-hex absolute", className]} style={style}>
@@ -27,7 +29,7 @@ const { src, alt, credit = false, detail, class: className, style } = Astro.prop
       widths={[300, 500, 760]}
       sizes="(max-width: 1024px) 46vw, 26vw"
       quality={70}
-      loading="lazy"
+      loading={eager ? "eager" : "lazy"}
     />
     {
       credit && (

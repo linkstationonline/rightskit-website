@@ -29,10 +29,13 @@ const conveyorHexes = Array.from({ length: 12 }, (_, i) => {
   return { ...cyc(k), left: -33 + 21.5 * k, top: 146 - 29 * k, z: i + 1 };
 });
 // Mobile: horizontal row, step = 47%.
-const rowHexes = Array.from({ length: 12 }, (_, i) => ({
-  ...cyc(i),
-  left: -188 + 47 * i,
-}));
+// Drift is rightward by one 4-image period (188%). Extend the band well to the
+// LEFT (the trailing side) so a hex is always entering as one exits right, and
+// the period-exact loop makes the wrap seamless (no blank gap).
+const rowHexes = Array.from({ length: 14 }, (_, n) => {
+  const i = n - 8;
+  return { ...cyc(i), left: 47 * i };
+});
 ---
 
 <section
@@ -55,7 +58,7 @@ const rowHexes = Array.from({ length: 12 }, (_, i) => ({
     <div class="hex-row absolute inset-y-0 left-0 w-[max(100%,610px)]">
       {
         rowHexes.map((h) => (
-          <HeroHexPhoto src={h.img} credit detail={h.detail} alt={h.alt} style={`left:${h.left}%;top:0;width:46%`} />
+          <HeroHexPhoto src={h.img} credit eager detail={h.detail} alt={h.alt} style={`left:${h.left}%;top:0;width:46%`} />
         ))
       }
     </div>
