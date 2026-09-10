@@ -5,9 +5,34 @@ import womanImg from "@/assets/hero/ugc-panel-1.png";
 import tennisImg from "@/assets/hero/ugc-panel-2.png";
 import bagImg from "@/assets/hero/ugc-panel-3.png";
 import shoeImg from "@/assets/hero/ugc-panel-4.png";
+// Per-photo credit cards: FLY (tennis), Tonic (bag + woman), Empire (shoe).
+import detailFly from "@/assets/hero/ugc-panel-details-0.svg?url";
+import detailEmpire from "@/assets/hero/ugc-panel-details-2.svg?url";
+import detailTonic from "@/assets/hero/ugc-panel-details-3.svg?url";
+import detailBagCard from "@/assets/hero/ugc-panel-details-4.svg?url";
 
 const body =
   "Our data tools and trusted partners help rightsholders uncover the true value of their catalog. Take control of your data and unlock untapped revenue today.";
+
+// 4-image cycle (index i·mod·4). Both the desktop conveyor and the mobile row
+// repeat this every 4, so a translate of one 4-step period loops seamlessly.
+const CYCLE = [
+  { img: womanImg, detail: detailTonic, alt: "Woman on rocks by the sea" },
+  { img: shoeImg, detail: detailEmpire, alt: "Running shoes on a track" },
+  { img: bagImg, detail: detailBagCard, alt: "Black leather tote bag" },
+  { img: tennisImg, detail: detailFly, alt: "Tennis player mid-serve" },
+];
+const cyc = (k: number) => CYCLE[((k % 4) + 4) % 4];
+// Desktop: rising diagonal, step = +21.5% x / -29% y.
+const conveyorHexes = Array.from({ length: 12 }, (_, i) => {
+  const k = i - 2;
+  return { ...cyc(k), left: -33 + 21.5 * k, top: 146 - 29 * k, z: i + 1 };
+});
+// Mobile: horizontal row, step = 47%.
+const rowHexes = Array.from({ length: 12 }, (_, i) => ({
+  ...cyc(i),
+  left: -188 + 47 * i,
+}));
 ---
 
 <section
@@ -17,7 +42,7 @@ const body =
   <!-- Copy (container is click-through so the hexes behind it stay hoverable) -->
   <div class="container-site pointer-events-none relative z-40 px-[max(22px,5%)] py-10 sm:px-0 max-lg:pt-20 lg:py-14 lg:max-[1280px]:-translate-y-[6%]">
     <div class="pointer-events-auto lg:max-w-xl lg:pt-14">
-      <h1 class="text-h1 font-[390] tracking-[-0.015em] text-ink">Your rights<span class="lg:hidden"> </span><br class="hidden lg:inline" /><span class="whitespace-nowrap">data toolkit</span></h1>
+      <h1 class="text-h1 -ml-[3px] font-[390] tracking-[-0.015em] text-ink">Your rights<span class="lg:hidden"> </span><br class="hidden lg:inline" /><span class="whitespace-nowrap">data toolkit</span></h1>
       <p class="mt-6 max-w-[480px] text-[16px] leading-[25px] font-[380] text-pretty text-ink-muted">{body}</p>
       <CtaButton class="mt-8">Get in touch</CtaButton>
     </div>
@@ -28,45 +53,37 @@ const body =
        drifting left. Images repeat every 3 so a translate of one period loops. -->
   <div class="relative mt-8 h-[max(60vw,340px)] w-full overflow-hidden lg:hidden">
     <div class="hex-row absolute inset-y-0 left-0 w-[max(100%,610px)]">
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:-141%;top:0;width:46%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:-94%;top:0;width:46%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" style="left:-47%;top:0;width:46%" />
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:0%;top:0;width:46%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:47%;top:0;width:46%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" style="left:94%;top:0;width:46%" />
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" style="left:141%;top:0;width:46%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" style="left:188%;top:0;width:46%" />
+      {
+        rowHexes.map((h) => (
+          <HeroHexPhoto src={h.img} credit detail={h.detail} alt={h.alt} style={`left:${h.left}%;top:0;width:46%`} />
+        ))
+      }
     </div>
   </div>
 
-  <!-- Desktop cluster (lg+): hexagons on a rising diagonal, drifting up-right
-       along the line. Images repeat every 3 so a translate of one 3-step period
-       loops seamlessly. -->
+  <!-- Desktop cluster (lg+): hexagons on a rising diagonal, drifting up-right.
+       4-image cycle → a translate of one 4-step period loops seamlessly. -->
   <div class="hidden lg:block lg:absolute lg:inset-0 z-10 lg:translate-x-[clamp(0px,92px-6vw,46px)] lg:translate-y-[clamp(0px,254px-16.5vw,127px)]">
     <div class="hex-conveyor absolute left-[4%] -top-[14%] aspect-[1440/704] w-[clamp(100%,calc(100%+(1536px-100vw)*0.3),140%)]">
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[1]" style="left:-33%;top:146%;width:28.6%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[2]" style="left:-11.5%;top:117%;width:28.6%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[3]" style="left:10%;top:88%;width:28.6%" />
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[4]" style="left:31.5%;top:59%;width:28.6%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[5]" style="left:53%;top:30%;width:28.6%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[6]" style="left:74.5%;top:1%;width:28.6%" />
-      <HeroHexPhoto src={bagImg} credit alt="Black leather tote bag" class="z-[7]" style="left:96%;top:-28%;width:28.6%" />
-      <HeroHexPhoto src={tennisImg} credit alt="Tennis player mid-serve" class="z-[8]" style="left:117.5%;top:-57%;width:28.6%" />
-      <HeroHexPhoto src={womanImg} credit alt="Woman on rocks by the sea" class="z-[9]" style="left:139%;top:-86%;width:28.6%" />
+      {
+        conveyorHexes.map((h) => (
+          <HeroHexPhoto src={h.img} credit detail={h.detail} alt={h.alt} style={`left:${h.left}%;top:${h.top}%;width:28.6%;z-index:${h.z}`} />
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
   .hex-conveyor {
-    animation: hex-drift 60s linear infinite;
+    animation: hex-drift 80s linear infinite;
     /* own compositor layer so the mask composites it without repainting the
        9 images every frame */
     will-change: transform;
   }
   /* mobile horizontal row: drift left by one 3-image period (3 × 29%) */
   .hex-row {
-    animation: hex-row-drift 45s linear infinite;
+    animation: hex-row-drift 60s linear infinite;
     will-change: transform;
   }
   @keyframes hex-row-drift {
@@ -74,7 +91,7 @@ const body =
       transform: translateX(0);
     }
     to {
-      transform: translateX(141%);
+      transform: translateX(188%);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -92,7 +109,7 @@ const body =
       transform: translate(0, 0);
     }
     to {
-      transform: translate(64.5%, -87%);
+      transform: translate(86%, -116%);
     }
   }
   @media (prefers-reduced-motion: reduce) {

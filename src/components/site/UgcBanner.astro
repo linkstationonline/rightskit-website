@@ -23,6 +23,7 @@ const body =
         class="absolute inset-0 -z-20 h-full w-full object-cover"
         widths={[768, 1280, 1600]}
         sizes="(max-width: 1360px) 100vw, 1360px"
+        quality={45}
       />
 
       <!-- photo. Below lg: a full-width band ABOVE the text. At lg: background-
@@ -37,29 +38,11 @@ const body =
           <Image
             src={bannerPhoto}
             alt="Collage of user-generated content clips"
-            class="h-full w-full origin-center object-cover object-center max-lg:scale-[1.2] lg:object-top"
+            class="h-full w-full origin-center object-cover object-center max-lg:scale-[1.2]"
             widths={[500, 800, 1100]}
             sizes="(max-width: 1024px) 100vw, 48vw"
+            quality={62}
           />
-          {
-            /* One equaliser per phone, sitting on its music-note line. */
-            [
-              { left: "57%", top: "4%" },
-              { left: "23%", top: "20%" },
-              { left: "94%", top: "20%" },
-              { left: "59%", top: "39%" },
-              { left: "23%", top: "56%" },
-              { left: "94%", top: "57.5%" },
-            ].map((p) => (
-              <div
-                class="ugc-wave pointer-events-none absolute"
-                style={`left:${p.left};top:${p.top}`}
-                aria-hidden="true"
-              >
-                <span /><span /><span /><span /><span />
-              </div>
-            ))
-          }
         </div>
       </div>
 
@@ -72,48 +55,13 @@ const body =
           Now accepting clients for unlicensed commercial UGC sync services
         </h2>
         <p class="text-body mt-6 max-w-2xl font-[330] text-pretty text-on-dark-muted max-sm:text-[16px] max-sm:leading-[25px]">{body}</p>
-        <CtaButton class="mt-8">Get started</CtaButton>
+        <CtaButton class="mt-8">Get in touch</CtaButton>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Animated equaliser overlaid on each phone's music line. Sized as % of the
-     parallax layer so it scales/moves with the photo. */
-  .ugc-wave {
-    display: flex;
-    align-items: flex-end;
-    gap: 2px;
-    height: 1.1%;
-    width: 3.4%;
-    transform: translateX(-5px);
-  }
-  .ugc-wave span {
-    flex: 1 1 0;
-    height: 100%;
-    transform: scaleY(0.25);
-    transform-origin: bottom;
-    background: #fffffb;
-    border-radius: 1px;
-    animation: ugc-wave 900ms ease-in-out infinite;
-  }
-  .ugc-wave span:nth-child(2) { animation-delay: 0.12s; }
-  .ugc-wave span:nth-child(3) { animation-delay: 0.24s; }
-  .ugc-wave span:nth-child(4) { animation-delay: 0.36s; }
-  .ugc-wave span:nth-child(5) { animation-delay: 0.48s; }
-  /* animate transform (composited) not height (forces layout every frame) */
-  @keyframes ugc-wave {
-    0%, 100% { transform: scaleY(0.25); }
-    50% { transform: scaleY(1); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ugc-wave span { animation: none; transform: scaleY(0.6); }
-  }
-  /* waves are positioned for the tall desktop column — hide on the stacked band */
-  @media (max-width: 1023px) {
-    .ugc-wave { display: none; }
-  }
 </style>
 
 <script>
@@ -129,7 +77,11 @@ const body =
       // shift scales with the layer height: ~190px on the tall desktop column,
       // gently smaller on the short stacked band.
       const shift = Math.max(-1, Math.min(1, p)) * -(img.offsetHeight * 0.19);
-      img.style.transform = `translateY(${shift}px) scale(1.1)`;
+      // no zoom on desktop (the h-192% overflow already gives the parallax its
+      // travel); keep a little zoom on the short mobile band so its smaller
+      // translate doesn't reveal an edge.
+      const zoom = window.innerWidth >= 1024 ? 1 : 1.1;
+      img.style.transform = `translateY(${shift}px) scale(${zoom})`;
       ticking = false;
     };
     const onScroll = () => {

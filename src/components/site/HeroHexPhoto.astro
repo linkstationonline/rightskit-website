@@ -1,20 +1,21 @@
 ---
 import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
-import detailsSvg from "@/assets/hero/ugc-panel-details-1.svg?raw";
 
 interface Props {
   src: ImageMetadata;
   alt: string;
-  /** Overlay the "Fly Net Tennis" credit card + sound wave. */
+  /** Show the animated sound wave overlay. */
   credit?: boolean;
+  /** Raw SVG string of the per-photo detail/credit card to overlay. */
+  detail?: string;
   /** z-index / extra utilities on the absolutely-placed wrapper. */
   class?: string;
   /** left / top / width, e.g. "left:16%;top:60%;width:24.5%" */
   style?: string;
 }
 
-const { src, alt, credit = false, class: className, style } = Astro.props;
+const { src, alt, credit = false, detail, class: className, style } = Astro.props;
 ---
 
 <div class:list={["hero-hex absolute", className]} style={style}>
@@ -25,12 +26,15 @@ const { src, alt, credit = false, class: className, style } = Astro.props;
       class="h-auto w-full"
       widths={[300, 500, 760]}
       sizes="(max-width: 1024px) 46vw, 26vw"
+      quality={70}
       loading="lazy"
     />
     {
       credit && (
         <>
-          <div class="credit-card pointer-events-none absolute" aria-hidden="true" set:html={detailsSvg} />
+          {detail && (
+            <img class="credit-card pointer-events-none absolute" src={detail} alt="" aria-hidden="true" loading="lazy" />
+          )}
           <div class="sound-wave pointer-events-none absolute" aria-hidden="true">
             <span /><span /><span /><span /><span />
           </div>
@@ -51,16 +55,13 @@ const { src, alt, credit = false, class: className, style } = Astro.props;
     will-change: transform;
   }
 
-  /* Credit card sits on the lower-left of the hexagon body. */
+  /* Credit card sits on the lower-left of the hexagon body, above the wave. */
   .credit-card {
     left: 8%;
-    bottom: 30%;
-    width: 55%;
-  }
-  .credit-card :global(svg) {
+    bottom: 33.5%;
     display: block;
     height: auto;
-    width: 100%;
+    width: 52.25%;
   }
 
   /* Animated "sound wave" equaliser under the credit card */
