@@ -19,11 +19,40 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <!-- Preload the above-the-fold faces so first paint uses the real font — no
+         swap/reflow. General Sans = H1, Inter (Latin subset, 60KB) = body,
+         IBM Plex = nav/caps. -->
+    <link
+      rel="preload"
+      href="/fonts/GeneralSans-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/InterVariable.subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/IBMPlexSans-Variable.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
   <body>
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:rounded-md focus:bg-surface-dark focus:px-4 focus:py-2 focus:font-plex focus:text-sm focus:text-on-dark"
+      >Skip to content</a
+    >
     <slot />
 
     <!-- Site-wide scroll reveal. Adds .is-visible to .reveal elements as they

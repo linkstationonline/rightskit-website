@@ -21,11 +21,11 @@ const { src, alt, credit = false, class: className, style } = Astro.props;
   <div class="hero-hex-inner">
     <Image
       src={src}
-      alt={alt}
+      alt=""
       class="h-auto w-full"
       widths={[300, 500, 760]}
-      sizes="(max-width: 1024px) 30vw, 26vw"
-      loading="eager"
+      sizes="(max-width: 1024px) 46vw, 26vw"
+      loading="lazy"
     />
     {
       credit && (
